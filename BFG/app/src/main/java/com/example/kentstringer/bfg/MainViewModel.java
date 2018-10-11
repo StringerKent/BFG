@@ -1,4 +1,4 @@
-package com.example.kentstringer.bfg.ui.main;
+package com.example.kentstringer.bfg;
 
 import android.arch.lifecycle.ViewModel;
 
