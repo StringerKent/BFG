@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentMap(), "Map");
         adapter.addFragment(new FragmentProfile(), "Profile");
         adapter.addFragment(new FragmentExercise(), "Exercise");
-        adapter.addFragment(new FragmentCharacterSheet(), "Character Sheet");
         viewPager.setAdapter(adapter);
     }
 

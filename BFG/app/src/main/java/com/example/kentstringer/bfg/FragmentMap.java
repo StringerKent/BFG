@@ -12,11 +12,6 @@ import android.widget.Button;
 public class FragmentMap extends Fragment {
     private static final String TAG = "FragmentProfile";
 
-    private Button btnNavFrag1;
-    private Button btnNavFrag2;
-    private Button btnNavFrag3;
-    private Button btnNavSecondActivity;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

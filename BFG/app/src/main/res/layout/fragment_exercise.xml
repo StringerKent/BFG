@@ -15,42 +15,4 @@
         android:text="Welcome to Exercise"
         android:layout_marginTop="4dp"
         android:id="@+id/textTitle"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textTitle"
-        android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Go to fragment 1"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnNavFrag1"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnNavFrag1"
-        android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Go to fragment 2"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnNavFrag2"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnNavFrag2"
-        android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Go to fragment 3"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnNavFrag3"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnNavFrag3"
-        android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Go to Second Activity"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnNavSecondActivity"/>
 </RelativeLayout>
