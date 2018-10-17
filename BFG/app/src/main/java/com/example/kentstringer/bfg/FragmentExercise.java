@@ -56,13 +56,13 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
 
             float y = event.values[1];
 
-            if (y > 2 && halfSquat && lastKnownPitch > 110 && lastKnownPitch < 140){
+            if (y > 2 && halfSquat && ((lastKnownPitch > 30 && lastKnownPitch < 70) ||(lastKnownPitch > 110 && lastKnownPitch < 140))){
                 squatsCompleted++;
                 TextView tv = getActivity().findViewById(R.id.squatsCounter);
                 tv.setText(squatsCompleted + "");
                 halfSquat= false;
             }
-            if (y < -2 && lastKnownPitch > 110 && lastKnownPitch < 140){
+            if (y < -2 && ((lastKnownPitch > 30 && lastKnownPitch < 70) ||(lastKnownPitch > 110 && lastKnownPitch < 140))){
                 halfSquat= true;
             }
         }else{
@@ -75,7 +75,14 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
             //double azimuth = (int) Math.round(Math.toDegrees(Math.acos(event.values[0])));
             double pitch = (int) Math.round(Math.toDegrees(Math.acos(event.values[1])));
             //double roll = (int) Math.round(Math.toDegrees(Math.acos(event.values[2])));
-            lastKnownPitch= pitch;
+            if (pitch != 0) {
+                lastKnownPitch = pitch;
+            }
+            try {
+
+                TextView tv = getActivity().findViewById(R.id.degreeTextView);
+                tv.setText(lastKnownPitch + "");
+            }catch(NullPointerException npe){}
         }
 
 
