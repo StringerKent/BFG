@@ -21,9 +21,11 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
     private Sensor gSensor;
     private Sensor aSensor;
     private boolean isActive = false;
-    private int squatsCompleted = 0;
+    private int exercisesCompleted = 0;
+    private String exerciseType = "";
     private boolean halfSquat = false;
     private double lastKnownPitch = 0;
+    private double lastKnownDirection = 0;
     private float[] mGeomagnetic;
     private float[] mGravity;
 
@@ -48,6 +50,31 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
             public void onClick(View view) {
                 Button button = view.findViewById(R.id.squatButton);
                 button.setText(button.getText().equals("Start Squats") ? "End Squats" : "Start Squats");
+                exerciseType = "Squats";
+                isActive = !isActive;
+            }
+        });
+
+        Button s = view.findViewById(R.id.squatLunge);
+        s.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Button button = view.findViewById(R.id.squatLunge);
+                button.setText(button.getText().equals("Start Lunges") ? "End Lunges" : "Start Lunges");
+                exerciseType = "Lunges";
+                isActive = !isActive;
+            }
+        });
+
+        Button p = view.findViewById(R.id.burpeeButton);
+        p.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Button button = view.findViewById(R.id.burpeeButton);
+                button.setText(button.getText().equals("Start Burpees") ? "End Burpees" : "Start Burpees");
+                exerciseType = "Burpees";
                 isActive = !isActive;
             }
         });
@@ -60,16 +87,46 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
             newCount = 0;
             switch (event.sensor.getType()){
                 case Sensor.TYPE_LINEAR_ACCELERATION:
-                    float y = event.values[1];
 
-                    if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))){
-                        squatsCompleted++;
-                        TextView tv = getActivity().findViewById(R.id.squatsCounter);
-                        tv.setText(squatsCompleted + "");
-                        halfSquat= false;
-                    }
-                    if (y < -2 && ((lastKnownPitch > -110 && lastKnownPitch < -70))){
-                        halfSquat= true;
+                    float x = event.values[1];
+                    float y = event.values[1];
+                    float z = event.values[1];
+
+                    try {
+                        TextView tv = getActivity().findViewById(R.id.accelTextView);
+                        tv.setText(lastKnownPitch + "");
+                    }catch(NullPointerException npe){}
+
+                    if (exerciseType.equals("Squats")) {
+                        if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                            exercisesCompleted++;
+                            TextView tv = getActivity().findViewById(R.id.squatsCounter);
+                            tv.setText(exerciseType + " Complete: " + exercisesCompleted + "");
+                            halfSquat = false;
+                        }
+                        if (y < -2 && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                            halfSquat = true;
+                        }
+                    }else if(exerciseType.equals("Lunges")){
+                        if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                            exercisesCompleted++;
+                            TextView tv = getActivity().findViewById(R.id.squatsCounter);
+                            tv.setText(exerciseType + " Complete: " + exercisesCompleted + "");
+                            halfSquat = false;
+                        }
+                        if (y < -1 && lastKnownDirection > 1 && ((lastKnownPitch > -130 && lastKnownPitch < -50))) {
+                            halfSquat = true;
+                        }
+                    }else if(exerciseType.equals("Burpees")){
+                        if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                            exercisesCompleted++;
+                            TextView tv = getActivity().findViewById(R.id.squatsCounter);
+                            tv.setText(exerciseType + " Complete: " + exercisesCompleted + "");
+                            halfSquat = false;
+                        }
+                        if (((lastKnownPitch < 10 && lastKnownPitch > -10))) {
+                            halfSquat = true;
+                        }
                     }
                     break;
                 case Sensor.TYPE_MAGNETIC_FIELD:
@@ -78,6 +135,7 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                     break;
                 case Sensor.TYPE_ACCELEROMETER:
                     mGravity = event.values;
+                    lastKnownDirection = event.values[2];
                     break;
             }
             if (mGravity != null && mGeomagnetic != null) {
@@ -94,11 +152,8 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                     pitch = Math.toDegrees(pitch);
                     pitch = Double.parseDouble(df.format(pitch));
                     float roll = orientation[2];
+
                     lastKnownPitch = pitch;
-                    try {
-                        TextView tv = getActivity().findViewById(R.id.degreeTextView);
-                        tv.setText(lastKnownPitch + "");
-                    }catch(NullPointerException npe){}
                 }
             }
         }

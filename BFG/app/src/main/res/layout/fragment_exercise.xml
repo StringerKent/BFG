@@ -19,62 +19,74 @@
 
     <Button
         android:id="@+id/squatButton"
-        android:layout_width="179dp"
-        android:layout_height="130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="266dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="115dp"
-        android:onClick="onClick"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="267dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="374dp"
+
         android:text="Start Squats" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="127dp"
-        android:layout_height="21dp"
+    <Button
+        android:id="@+id/squatLunge"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="201dp"
-        android:layout_marginBottom="431dp"
-        android:text="Squats Completed" />
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="343dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="298dp"
+        android:text="Start Lunges" />
+
+    <Button
+        android:id="@+id/burpeeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="412dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="229dp"
+        android:text="Start Burpees" />
+
 
     <TextView
         android:id="@+id/squatsCounter"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView"
+        android:layout_height="32dp"
+        android:layout_below="@+id/textTitle"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="209dp"
-        android:layout_marginEnd="117dp"
-        android:layout_marginBottom="433dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="122dp"
+        android:layout_marginBottom="580dp"
         android:text="0" />
 
+
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:id="@+id/accelTextView"
+        android:layout_width="134dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="34dp"
-        android:layout_marginTop="152dp"
-        android:text="110 -140" />
-
-    <TextView
-        android:id="@+id/degreeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_marginEnd="-209dp"
-        android:layout_toStartOf="@+id/squatsCounter" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="261dp"
+        android:layout_marginBottom="525dp" />
 
 </RelativeLayout>
