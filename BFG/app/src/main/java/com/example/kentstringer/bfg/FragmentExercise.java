@@ -78,12 +78,12 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                 isActive = !isActive;
             }
         });
-        Button sb = view.findViewById(R.id.burpeeButton);
+        Button sb = view.findViewById(R.id.shadowButton);
         sb.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Button button = view.findViewById(R.id.burpeeButton);
+                Button button = view.findViewById(R.id.shadowButton);
                 button.setText(button.getText().equals("Start Shadow Boxing") ? "End Shadow Boxing" : "Start Shadow Boxing");
                 exerciseType = "Shadow";
                 isActive = !isActive;
@@ -94,6 +94,7 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
     int newCount = 0;
     @Override
     public void onSensorChanged(SensorEvent event) {
+        //Up down array of movements
         if (isActive && newCount++%3 == 0){
             newCount = 0;
             switch (event.sensor.getType()){

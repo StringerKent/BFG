@@ -1,6 +1,7 @@
 package com.example.kentstringer.bfg;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,12 +29,19 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Console;
+import java.sql.Time;
+
 public class FragmentMap extends Fragment implements LocationListener {
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
     private static final String TAG = "FragmentProfile";
     private MapView mMapView;
     private GoogleMap googleMap;
     LocationManager locationManager;
+    private Location runStartLocation;
+    private double runStartTime;
+    private double runTotalDistance;
+    private boolean onRun = false;
 
 
     @Override
@@ -51,42 +60,42 @@ public class FragmentMap extends Fragment implements LocationListener {
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        getLocation();
-                    }else{
-                        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            Toast.makeText(getActivity().getApplicationContext(), "Application requires access to location", Toast.LENGTH_SHORT).show();
-                        }
-                        requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
-                    }
-                }else{
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     getLocation();
+                }else{
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Application requires access to location", Toast.LENGTH_SHORT).show();
+                    }
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
                 }
-                googleMap = mMap;
-                googleMap.setMyLocationEnabled(true);
-                //LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
-                //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }else{
+                getLocation();
+            }
+            googleMap = mMap;
+            googleMap.setMyLocationEnabled(true);
+            //LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+            //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+            //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
             }
         });
 
         Button b = (Button)view.findViewById(R.id.runButton);
         b.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View v) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                    if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                        getLocation();
-                    }else{
-                        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                            Toast.makeText(getActivity().getApplicationContext(), "Application requires access to location", Toast.LENGTH_SHORT).show();
-                        }
-                        requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
-                    }
-                }else{
-                    getLocation();
+                Button b = v.findViewById(R.id.runButton);
+                b.setText(b.getText().equals("Start Run") ? "End Run" : "Start Run");
+                onRun = !onRun;
+                if (onRun) {
+                    Location l = new Location(LocationManager.NETWORK_PROVIDER);
+                    l.setLatitude(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude());
+                    l.setLongitude(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+                    runStartLocation = l;
+                    runStartTime = System.currentTimeMillis();
+                    runTotalDistance = 0;
                 }
             }
         });
@@ -114,6 +123,21 @@ public class FragmentMap extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        if (onRun) {
+            double distance = location.distanceTo(runStartLocation) * 3.281;
+            double time = System.currentTimeMillis() - runStartTime;
+            runTotalDistance += distance;
+
+            TextView distanceView = getView().findViewById(R.id.distanceRun);
+            TextView runView = getView().findViewById(R.id.runTime);
+
+            distanceView.setText("Distance run: " + runTotalDistance);
+
+            runView.setText("Time running: " + (time / 1000));
+        }
 
     }
 
