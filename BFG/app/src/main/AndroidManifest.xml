@@ -25,6 +25,9 @@
         <activity android:name=".SecondActivity"></activity>
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBcK2bI0gGQAlc9mjtcsVQ2XUc-fbdCjUg"/>
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        <service android:name=".LocationService"
+            android:enabled="true"
+            android:exported="false"/>
 
     </application>
 

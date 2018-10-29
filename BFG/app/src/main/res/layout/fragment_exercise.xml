@@ -60,6 +60,19 @@
         android:layout_marginBottom="229dp"
         android:text="Start Burpees" />
 
+    <Button
+        android:id="@+id/shadowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="481dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="160dp"
+        android:text="Start Shadow Boxing" />
 
     <TextView
         android:id="@+id/squatsCounter"

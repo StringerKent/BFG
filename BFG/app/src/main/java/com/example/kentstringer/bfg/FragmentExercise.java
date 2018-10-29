@@ -78,6 +78,17 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                 isActive = !isActive;
             }
         });
+        Button sb = view.findViewById(R.id.burpeeButton);
+        sb.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Button button = view.findViewById(R.id.burpeeButton);
+                button.setText(button.getText().equals("Start Shadow Boxing") ? "End Shadow Boxing" : "Start Shadow Boxing");
+                exerciseType = "Shadow";
+                isActive = !isActive;
+            }
+        });
         return view;
     }
     int newCount = 0;
@@ -117,7 +128,17 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                         if (y < -1 && lastKnownDirection > 1 && ((lastKnownPitch > -130 && lastKnownPitch < -50))) {
                             halfSquat = true;
                         }
-                    }else if(exerciseType.equals("Burpees")){
+                    }else if(exerciseType.equals("Shadow")){
+                        if (x < -2) {
+                            exercisesCompleted++;
+                            TextView tv = getActivity().findViewById(R.id.squatsCounter);
+                            tv.setText(exerciseType + " Complete: " + exercisesCompleted + "");
+                            halfSquat = false;
+                        }
+                        if (x > 3) {
+                            halfSquat = true;
+                        }
+                    }else if(exerciseType.equals("Burpee")){
                         if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
                             exercisesCompleted++;
                             TextView tv = getActivity().findViewById(R.id.squatsCounter);
@@ -127,7 +148,7 @@ public class FragmentExercise extends Fragment implements SensorEventListener {
                         if (((lastKnownPitch < 10 && lastKnownPitch > -10))) {
                             halfSquat = true;
                         }
-                    }
+            }
                     break;
                 case Sensor.TYPE_MAGNETIC_FIELD:
                     mGeomagnetic = event.values;
