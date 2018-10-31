@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.Console;
 import java.sql.Time;
+import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FragmentMap extends Fragment implements LocationListener {
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
@@ -42,6 +46,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     private double runStartTime;
     private double runTotalDistance;
     private boolean onRun = false;
+    private Timer myTimer;
 
 
     @Override
@@ -99,7 +104,35 @@ public class FragmentMap extends Fragment implements LocationListener {
                 }
             }
         });
+
+        myTimer = new Timer();
+        myTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                TimerMethod();
+            }
+
+        }, 0, 1000);
+
+
         return view;
+
+    }
+
+    private void TimerMethod()
+    {
+        try {
+            if (onRun) {
+                double time = System.currentTimeMillis() - runStartTime;
+                TextView runView = getView().findViewById(R.id.runTime2);
+                int hours = (int) (((time / 1000) / 60) / 60);
+                int minutes = (int) (((time / 1000) / 60));
+                int seconds = (int) ((time / 1000));
+                runView.setText("" + hours + ":" + minutes + ":" + seconds);
+            }
+        }catch (NullPointerException npe){
+
+        }
     }
 
     @Override
@@ -130,13 +163,19 @@ public class FragmentMap extends Fragment implements LocationListener {
             double distance = location.distanceTo(runStartLocation) * 3.281;
             double time = System.currentTimeMillis() - runStartTime;
             runTotalDistance += distance;
+            runStartLocation = location;
 
-            TextView distanceView = getView().findViewById(R.id.distanceRun);
-            TextView runView = getView().findViewById(R.id.runTime);
-
-            distanceView.setText("Distance run: " + runTotalDistance);
-
-            runView.setText("Time running: " + (time / 1000));
+            TextView distanceView = getView().findViewById(R.id.distance);
+            TextView runView = getView().findViewById(R.id.runTime2);
+            int miles = (int)runTotalDistance/5280;
+            double subMile = (runTotalDistance%5280)/5280;
+            DecimalFormat df = new DecimalFormat(".##");
+            String subMileFormatted = df.format(subMile);
+            distanceView.setText(miles+ "" + subMileFormatted);
+            int hours = (int)(((time/1000)/60)/60);
+            int minutes = (int)(((time/1000)/60));
+            int seconds = (int)((time/1000));
+            runView.setText("" + hours + ":" + minutes + ":" + seconds );
         }
 
     }
