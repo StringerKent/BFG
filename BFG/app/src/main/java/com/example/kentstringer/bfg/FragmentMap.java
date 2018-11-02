@@ -2,16 +2,13 @@ package com.example.kentstringer.bfg;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -28,10 +25,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.Console;
-import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,6 +41,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     private double runTotalDistance;
     private boolean onRun = false;
     private Timer myTimer;
+    private int noMovementCount = 0;
 
 
     @Override
@@ -86,7 +81,8 @@ public class FragmentMap extends Fragment implements LocationListener {
             }
         });
 
-        Button b = (Button)view.findViewById(R.id.runButton);
+        Button b = view.findViewById(R.id.runButton);
+        b.setText(onRun ? "End Run" : "Start Run");
         b.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("MissingPermission")
             @Override
@@ -123,12 +119,16 @@ public class FragmentMap extends Fragment implements LocationListener {
     {
         try {
             if (onRun) {
+                noMovementCount++;
                 double time = System.currentTimeMillis() - runStartTime;
                 TextView runView = getView().findViewById(R.id.runTime2);
                 int hours = (int) (((time / 1000) / 60) / 60);
                 int minutes = (int) (((time / 1000) / 60));
-                int seconds = (int) ((time / 1000));
-                runView.setText("" + hours + ":" + minutes + ":" + seconds);
+                int seconds = (int) ((time / 1000)%60);
+                runView.setText("" + hours + ":" + minutes + ":" + seconds );
+                if (noMovementCount == 3){
+                    getLocation();
+                }
             }
         }catch (NullPointerException npe){
 
@@ -149,6 +149,7 @@ public class FragmentMap extends Fragment implements LocationListener {
         try {
             locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+
         }catch (SecurityException se){
             se.printStackTrace();
         }
@@ -156,6 +157,7 @@ public class FragmentMap extends Fragment implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        noMovementCount = 0;
         @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
         CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -174,7 +176,7 @@ public class FragmentMap extends Fragment implements LocationListener {
             distanceView.setText(miles+ "" + subMileFormatted);
             int hours = (int)(((time/1000)/60)/60);
             int minutes = (int)(((time/1000)/60));
-            int seconds = (int)((time/1000));
+            int seconds = (int)((time/1000)%60);
             runView.setText("" + hours + ":" + minutes + ":" + seconds );
         }
 
