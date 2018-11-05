@@ -32,7 +32,6 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
     private Sensor gSensor;
     private Sensor aSensor;
     private boolean isActive = false;
-    private int exercisesCompleted = 0;
     private String exerciseType = "";
     private boolean halfSquat = false;
     private double lastKnownPitch = 0;
@@ -68,6 +67,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
         testPlayerCharacter.setLungePwr(10);
         testPlayerCharacter.setBurpeePwr(10);
         testPlayerCharacter.setShadowBoxingPwr(10);
+        testPlayerCharacter.setLevel(1);
 
         testUSer.setActivePlayerCharacter(testPlayerCharacter);
         user = testUSer;
@@ -104,6 +104,8 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     }, 0, 60000);
                     ProgressBar pb = getActivity().findViewById(R.id.healthBar);
                     pb.setProgress(100);
+                    ProgressBar p = getActivity().findViewById(R.id.characterHealth);
+                    p.setProgress(100);
                 }
             }
         });
@@ -129,6 +131,8 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     myTimer.cancel();
                     ProgressBar pb = getActivity().findViewById(R.id.healthBar);
                     pb.setProgress(0);
+                    ProgressBar p = getActivity().findViewById(R.id.characterHealth);
+                    p.setProgress(0);
                 }
             }
         });
@@ -138,7 +142,26 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
 
     private void AddReport(){
         TextView tv = new TextView(getContext());
-        tv.setText("Monster attacked you dealing " + getAttackVal(monster.getCounterAttackPwr()) + " damage!");
+        int monsterDmg = getAttackVal(monster.getCounterAttackPwr());
+        tv.setText("Monster attacked you dealing " + monsterDmg + " damage!");
+        pc.takeDmg(monsterDmg);
+        if (pc.getHp() <= 0){
+            Toast.makeText(getContext(), "YOU FEIGNTED!", Toast.LENGTH_LONG).show();
+            pc.setHp(pc.getMaxHp());
+            singleBattle = false;
+            isActive = !isActive;
+            TextView t = getView().findViewById(R.id.textTitle);
+            Button s = getView().findViewById(R.id.retreatButton);
+            Button b = getView().findViewById(R.id.beginWorkOut);
+            s.setText("End Training");
+            b.setText("Begin Training");
+            t.setText("Welcome to the Arena");
+            ProgressBar pb = getActivity().findViewById(R.id.healthBar);
+            pb.setProgress(0);
+            ProgressBar p = getActivity().findViewById(R.id.characterHealth);
+            p.setProgress(0);
+            ((MainActivity)getActivity()).changeViewPager(1);
+        }
         LinearLayout ll = getActivity().findViewById(R.id.display);
         ll.addView(tv,0);
     }
@@ -169,8 +192,10 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
         if (isActive && newCount++%3 == 0){
             newCount = 0;
             double newTime = System.currentTimeMillis();
-            if (newTime - time >= 2000){
+            int monsterTimer = exerciseType.equals("Burpees") ? 4000 : 3000;
+            if (newTime - time >= monsterTimer){
                 AddReport();
+
                 time = newTime;
             }
             switch (event.sensor.getType()){
@@ -182,14 +207,12 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
 
                     if (exerciseType.equals("Squats")) {
                         if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                            exercisesCompleted++;
                             TextView tv = new TextView(getContext());
                             int attackVal = getAttackVal(pc.getSquatPwr());
                             tv.setText("Successful attack! You dealt " + attackVal + " damage!");
                             monster.takeDmg(attackVal);
                             LinearLayout ll = getActivity().findViewById(R.id.display);
                             ll.addView(tv,0);
-                            Toast.makeText(getContext(),"done", Toast.LENGTH_LONG).show();
                             halfSquat = false;
                             time = System.currentTimeMillis();
                         }
@@ -198,14 +221,12 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                         }
                     }else if(exerciseType.equals("Lunges")){
                         if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                            exercisesCompleted++;
                             TextView tv = new TextView(getContext());
                             int attackVal = getAttackVal(pc.getLungePwr());
                             tv.setText("Successful attack! You dealt " + attackVal + " damage!");
                             monster.takeDmg(attackVal);
                             LinearLayout ll = getActivity().findViewById(R.id.display);
                             ll.addView(tv,0);
-                            Toast.makeText(getContext(),"done", Toast.LENGTH_LONG).show();
                             halfSquat = false;
                             time = System.currentTimeMillis();
                         }
@@ -214,14 +235,12 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                         }
                     }else if(exerciseType.equals("Shadow Boxing")){
                         if (x < -2) {
-                            exercisesCompleted++;
                             TextView tv = new TextView(getContext());
                             int attackVal = getAttackVal(pc.getShadowBoxingPwr());
                             tv.setText("Successful attack! You dealt " + attackVal + " damage!");
                             monster.takeDmg(attackVal);
                             LinearLayout ll = getActivity().findViewById(R.id.display);
                             ll.addView(tv,0);
-                            Toast.makeText(getContext(),"done", Toast.LENGTH_LONG).show();
                             halfSquat = false;
                             time = System.currentTimeMillis();
                         }
@@ -230,7 +249,6 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                         }
                     }else if(exerciseType.equals("Burpees")){
                         if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                            exercisesCompleted++;
                             TextView tv = new TextView(getContext());
                             int attackVal = getAttackVal(pc.getBurpeePwr());
                             tv.setText("Successful attack! You dealt " + attackVal + " damage!");
@@ -238,7 +256,6 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
 
                             LinearLayout ll = getActivity().findViewById(R.id.display);
                             ll.addView(tv,0);
-                            Toast.makeText(getContext(),"done", Toast.LENGTH_LONG).show();
                             halfSquat = false;
                             time = System.currentTimeMillis();
                         }
@@ -281,6 +298,13 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                 tv.setText("The monster has been slain. You earn " + monster.getExperience() + "xp");
                 LinearLayout ll = getActivity().findViewById(R.id.display);
                 ll.addView(tv, 0);
+                int pcLevel = pc.getLevel();
+                pc.killMonster(monster.getExperience());
+                if (pcLevel > pc.getLevel()){
+                    TextView levelUp = new TextView(getContext());
+                    levelUp.setText("YOU LEVELED UP TO LEVEL " + pc.getLevel() + "!");
+                    ll.addView(levelUp);
+                }
                 if (singleBattle){
                     singleBattle = false;
                     isActive = !isActive;
@@ -292,6 +316,8 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     t.setText("Welcome to the Arena");
                     ProgressBar pb = getActivity().findViewById(R.id.healthBar);
                     pb.setProgress(0);
+                    ProgressBar p = getActivity().findViewById(R.id.characterHealth);
+                    p.setProgress(0);
                     ((MainActivity)getActivity()).changeViewPager(1);
 
                 }else {
@@ -302,6 +328,8 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
 
             ProgressBar pb = getActivity().findViewById(R.id.healthBar);
             pb.setProgress(monster.getPercentageLife());
+            ProgressBar cb = getActivity().findViewById(R.id.characterHealth);
+            cb.setProgress(pc.getPercentageLife());
         }
 
     }

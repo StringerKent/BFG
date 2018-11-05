@@ -18,9 +18,21 @@ public class PlayerCharacter {
     private int burpeeChance;
     private int shadowChance;
     private int sprintChance;
+    private int hp;
+    private int maxHp;
+    private int level;
+    private int monstersKilled;
+    private double totalDistanceRan;
+    private long experience;
+    private long experienceNeeded;
 
-    public PlayerCharacter(String workoutClass, int squatPwr, int lungePwr, int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance, int lungeChange, int burpeeChance, int shadowChance, int sprintChance) {
+    public PlayerCharacter(String workoutClass, String pcName, int squatPwr, int lungePwr,
+                           int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance,
+                           int lungeChange, int burpeeChance, int shadowChance, int sprintChance,
+                           int hp, int maxHp, int level, int monstersKilled, double totalDistanceRan,
+                           long experience, long experienceNeeded) {
         this.workoutClass = workoutClass;
+        this.pcName = pcName;
         this.squatPwr = squatPwr;
         this.lungePwr = lungePwr;
         this.burpeePwr = burpeePwr;
@@ -31,6 +43,13 @@ public class PlayerCharacter {
         this.burpeeChance = burpeeChance;
         this.shadowChance = shadowChance;
         this.sprintChance = sprintChance;
+        this.hp = hp;
+        this.maxHp = maxHp;
+        this.level = level;
+        this.monstersKilled = monstersKilled;
+        this.totalDistanceRan = totalDistanceRan;
+        this.experience = experience;
+        this.experienceNeeded = experienceNeeded;
     }
 
     public PlayerCharacter() {
@@ -145,6 +164,22 @@ public class PlayerCharacter {
         }
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+        setHp(maxHp);
+    }
 
     public String getPcName() {
         return pcName;
@@ -153,4 +188,66 @@ public class PlayerCharacter {
     public void setPcName(String pcName) {
         this.pcName = pcName;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+        experienceNeeded = level * 1000;
+        setMaxHp(level * 100);
+    }
+
+    public void levelUp(){
+        int level = getLevel();
+        setLevel(level++);
+    }
+
+    public void killMonster(long xpEarned){
+        int num = getMonstersKilled();
+        setMonstersKilled(num++);
+        long experience = getExperience() + xpEarned;
+        if (experience >= experienceNeeded){
+            levelUp();
+            setExperience(0);
+        }else{
+            setExperience(experience);
+        }
+    }
+
+    public void takeDmg(int dmg){
+        int hp = getHp();
+        setHp(hp - dmg);
+    }
+
+    public int getMonstersKilled() {
+        return monstersKilled;
+    }
+
+    public void setMonstersKilled(int monstersKilled) {
+        this.monstersKilled = monstersKilled;
+    }
+
+    public double getTotalDistanceRan() {
+        return totalDistanceRan;
+    }
+
+    public void setTotalDistanceRan(double totalDistanceRan) {
+        this.totalDistanceRan = totalDistanceRan;
+    }
+
+    public long getExperience() {
+        return experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    public int getPercentageLife() {
+        double percent = ((double)getHp()/(double)getMaxHp())*100;
+        return (int)percent;
+    }
+
 }
