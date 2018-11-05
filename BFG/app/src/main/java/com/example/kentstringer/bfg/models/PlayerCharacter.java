@@ -1,9 +1,13 @@
 package com.example.kentstringer.bfg.models;
 
-public class Character {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class PlayerCharacter {
 
 
     private String workoutClass;
+    private String pcName;
     private int squatPwr;
     private int lungePwr;
     private int burpeePwr;
@@ -15,7 +19,7 @@ public class Character {
     private int shadowChance;
     private int sprintChance;
 
-    public Character(String workoutClass, int squatPwr, int lungePwr, int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance, int lungeChange, int burpeeChance, int shadowChance, int sprintChance) {
+    public PlayerCharacter(String workoutClass, int squatPwr, int lungePwr, int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance, int lungeChange, int burpeeChance, int shadowChance, int sprintChance) {
         this.workoutClass = workoutClass;
         this.squatPwr = squatPwr;
         this.lungePwr = lungePwr;
@@ -29,7 +33,8 @@ public class Character {
         this.sprintChance = sprintChance;
     }
 
-    public Character() {}
+    public PlayerCharacter() {
+    }
 
     public String getWorkoutClass() {
         return workoutClass;
@@ -117,5 +122,35 @@ public class Character {
 
     public void setSprintChance(int sprintChance) {
         this.sprintChance = sprintChance;
+    }
+
+    public String toJSON() {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", getPcName());
+            jsonObject.put("squatPwr", getSquatPwr());
+            jsonObject.put("lungePwr", getLungePwr());
+            jsonObject.put("burpeePwr", getBurpeePwr());
+            jsonObject.put("shadowPwr", getShadowBoxingPwr());
+            jsonObject.put("squatChance", getSquatChance());
+            jsonObject.put("lungeChance", getLungeChange());
+            jsonObject.put("burpeeChance", getBurpeeChance());
+            jsonObject.put("shadowChance", getShadowChance());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+
+    public String getPcName() {
+        return pcName;
+    }
+
+    public void setPcName(String pcName) {
+        this.pcName = pcName;
     }
 }

@@ -4,6 +4,8 @@ public class Monster {
     private int level;
     private long experience;
     private int counterAttackPwr;
+    private int hp;
+    private int maxHp;
 
     public Monster(int level, long experience, int counterAttackPwr) {
         this.level = level;
@@ -18,6 +20,9 @@ public class Monster {
 
     public void setLevel(int level) {
         this.level = level;
+        setMaxHp(level*100);
+        setExperience(level * 300);
+        setCounterAttackPwr(level * 10);
     }
 
     public long getExperience() {
@@ -34,5 +39,28 @@ public class Monster {
 
     public void setCounterAttackPwr(int counterAttackPwr) {
         this.counterAttackPwr = counterAttackPwr;
+    }
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+        setHp(maxHp);
+    }
+    public void takeDmg(int dmg){
+        setHp(getHp()-dmg);
+    }
+    public int getPercentageLife(){
+        double percent = ((double)getHp()/(double)getMaxHp())*100;
+        return (int)percent;
     }
 }

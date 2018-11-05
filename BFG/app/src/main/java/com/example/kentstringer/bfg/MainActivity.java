@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -46,12 +47,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void setupViewPager(ViewPager viewPager){
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new AddExerciseFragment(), "AddExercise");
+        adapter.addFragment(new FragmentCircut(), "Train");
         adapter.addFragment(new FragmentMap(), "Map");
         adapter.addFragment(new FragmentProfile(), "Profile");
-        adapter.addFragment(new FragmentExercise(), "Exercise");
+        adapter.addFragment(new FragmentExercise(), "Demo Exercise");
         viewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(1);
+    }
+
+    public void changeViewPager(int index){
+        mViewPager.setCurrentItem(index);
+    }
+
+    public View getViewPager(int index){
+        return mViewPager.getChildAt(index);
     }
 
     @Override

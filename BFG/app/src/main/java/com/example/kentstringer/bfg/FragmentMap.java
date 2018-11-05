@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.storage.StorageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DecimalFormat;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -89,17 +92,19 @@ public class FragmentMap extends Fragment implements LocationListener {
             public void onClick(View v) {
                 Button b = v.findViewById(R.id.runButton);
                 b.setText(b.getText().equals("Start Run") ? "End Run" : "Start Run");
-                onRun = !onRun;
-                if (onRun) {
-                    Location l = new Location(LocationManager.NETWORK_PROVIDER);
-                    l.setLatitude(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude());
-                    l.setLongitude(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+                if (b.getText().equals("End Run")) {
+                    getLocation();
+                    Location l = new Location(LocationManager.GPS_PROVIDER);
+                    l.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+                    l.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
                     runStartLocation = l;
                     runStartTime = System.currentTimeMillis();
                     runTotalDistance = 0;
                 }
+                onRun = !onRun;
             }
         });
+
 
         myTimer = new Timer();
         myTimer.schedule(new TimerTask() {
@@ -148,7 +153,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     void getLocation(){
         try {
             locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
 
         }catch (SecurityException se){
             se.printStackTrace();
@@ -158,7 +163,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         noMovementCount = 0;
-        @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
+        @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
         CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         if (onRun) {
@@ -178,6 +183,20 @@ public class FragmentMap extends Fragment implements LocationListener {
             int minutes = (int)(((time/1000)/60));
             int seconds = (int)((time/1000)%60);
             runView.setText("" + hours + ":" + minutes + ":" + seconds );
+            Random randy = new Random();
+            Switch s = getView().findViewById(R.id.troubleSwitch);
+
+            if(randy.nextInt(10) > 4 && s.isChecked()){
+                View v = ((MainActivity)getActivity()).getViewPager(1);
+                TextView tv = v.findViewById(R.id.textTitle);
+                Button b = v.findViewById(R.id.beginWorkOut);
+                if (!tv.getText().equals("Encounter!")) {
+                    tv.setText("Encounter!");
+                    b.setText("Ready!");
+                    ((MainActivity) getActivity()).changeViewPager(0);
+                    Toast.makeText(getContext(), "Monster Found", Toast.LENGTH_LONG).show();
+                }
+            }
         }
 
     }

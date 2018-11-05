@@ -24,10 +24,10 @@ public class SecondActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager){
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentCharacterSheet(), "Character Sheet");
-        adapter.addFragment(new FragmentCharacterSheet(), "Character Sheet");
-        adapter.addFragment(new FragmentCharacterSheet(), "Character Sheet");
-        adapter.addFragment(new FragmentCharacterSheet(), "Character Sheet");
+        adapter.addFragment(new FragmentCharacterSheet(), "PlayerCharacter Sheet");
+        adapter.addFragment(new FragmentCharacterSheet(), "PlayerCharacter Sheet");
+        adapter.addFragment(new FragmentCharacterSheet(), "PlayerCharacter Sheet");
+        adapter.addFragment(new FragmentCharacterSheet(), "PlayerCharacter Sheet");
         viewPager.setAdapter(adapter);
     }
 

@@ -1,5 +1,8 @@
 package com.example.kentstringer.bfg.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class User {
@@ -8,27 +11,38 @@ public class User {
     private long experience;
     private double totalDistanceRun;
     private int totalMonsterKilled;
-    private ArrayList<Character> characters = new ArrayList<>();
+    private ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
+    private PlayerCharacter activePlayerCharacter;
 
+    public PlayerCharacter getActivePlayerCharacter() {
+        return activePlayerCharacter;
+    }
 
-    public User(String name, int level, long experience, ArrayList<Character> characters, double totalDistanceRun, int totalMonsterKilled) {
+    public void setActivePlayerCharacter(PlayerCharacter activePlayerCharacter) {
+        this.activePlayerCharacter = activePlayerCharacter;
+    }
+
+    public User(String name, int level, long experience, ArrayList<PlayerCharacter> playerCharacters, double totalDistanceRun, int totalMonsterKilled) {
         this.name = name;
         this.level = level;
         this.experience = experience;
-        this.characters = characters;
+        this.playerCharacters = playerCharacters;
         this.totalDistanceRun = totalDistanceRun;
         this.totalMonsterKilled = totalMonsterKilled;
+        if (playerCharacters.size() >= 1) {
+            activePlayerCharacter = playerCharacters.get(0);
+        }
     }
 
     public User() {}
 
-    public void AddNewCharacter(Character c){
-        characters.add(c);
+    public void AddNewCharacter(PlayerCharacter c){
+        playerCharacters.add(c);
     }
 
-    public Character GetCharacter(int i){
-        if (i < characters.size()){
-            return characters.get(i);
+    public PlayerCharacter GetCharacter(int i){
+        if (i < playerCharacters.size()){
+            return playerCharacters.get(i);
         }else{
             return null;
         }
@@ -75,11 +89,30 @@ public class User {
         this.totalMonsterKilled = totalMonsterKilled;
     }
 
-    public ArrayList<Character> getCharacters() {
-        return characters;
+    public ArrayList<PlayerCharacter> getPlayerCharacters() {
+        return playerCharacters;
     }
 
-    public void setCharacters(ArrayList<Character> characters) {
-        this.characters = characters;
+    public void setPlayerCharacters(ArrayList<PlayerCharacter> playerCharacters) {
+        this.playerCharacters = playerCharacters;
+    }
+    public String toJSON(){
+
+        JSONObject jsonObject= new JSONObject();
+        try {
+            jsonObject.put("xp", getExperience());
+            jsonObject.put("level", getLevel());
+            jsonObject.put("name", getName());
+            jsonObject.put("kills", getTotalMonsterKilled());
+            jsonObject.put("distance", getTotalDistanceRun());
+            jsonObject.put("characters", getPlayerCharacters());
+
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return "";
+        }
+
     }
 }
