@@ -25,6 +25,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
     private ViewPager mViewPager;
 
+//    splash screen
+//    user creation
+//    character creation
+//    auto save/load(half done)
+//    fine tune exercises
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
