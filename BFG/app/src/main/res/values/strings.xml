@@ -3,4 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="class_list">
+        <item>Fighter</item>
+        <item>Ranger</item>
+        <item>Scout</item>
+    </string-array>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 </resources>

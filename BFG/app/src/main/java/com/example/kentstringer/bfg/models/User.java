@@ -36,7 +36,7 @@ public class User {
 
     public User() {}
 
-    public void AddNewCharacter(PlayerCharacter c){
+    public void addNewCharacter(PlayerCharacter c){
         playerCharacters.add(c);
     }
 
@@ -106,7 +106,6 @@ public class User {
             jsonObject.put("kills", getTotalMonsterKilled());
             jsonObject.put("distance", getTotalDistanceRun());
             jsonObject.put("characters", getPlayerCharacters());
-
             return jsonObject.toString();
         } catch (JSONException e) {
             // TODO Auto-generated catch block

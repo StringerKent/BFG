@@ -1,5 +1,6 @@
 package com.example.kentstringer.bfg;
 
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,7 +22,11 @@ import com.example.kentstringer.bfg.models.Monster;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +51,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
     private Monster monster;
     private Random randy = new Random();
     private boolean singleBattle = false;
+    SharedPreferences sharedpreferences;
 
     @Nullable
     @Override
@@ -70,9 +76,13 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
         testPlayerCharacter.setLevel(1);
 
         testUSer.setActivePlayerCharacter(testPlayerCharacter);
+
+        ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
         user = testUSer;
         pc = testPlayerCharacter;
 
+        playerCharacters.add(pc);
+        user.setPlayerCharacters(playerCharacters);
         monster = new Monster();
         monster.setLevel(1);
 
@@ -133,6 +143,18 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     pb.setProgress(0);
                     ProgressBar p = getActivity().findViewById(R.id.characterHealth);
                     p.setProgress(0);
+                    String str = user.toJSON();
+                    try {
+                        JSONObject j = new JSONObject(str);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    sharedpreferences = getActivity().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                    editor.putString("user", str);
+                    editor.commit();
                 }
             }
         });

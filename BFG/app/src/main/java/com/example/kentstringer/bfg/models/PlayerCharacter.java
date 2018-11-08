@@ -8,29 +8,41 @@ public class PlayerCharacter {
 
     private String workoutClass;
     private String pcName;
+
     private int squatPwr;
     private int lungePwr;
     private int burpeePwr;
     private int shadowBoxingPwr;
     private int sprintPwr;
+
     private int squatChance;
     private int lungeChange;
     private int burpeeChance;
     private int shadowChance;
     private int sprintChance;
+
     private int hp;
     private int maxHp;
     private int level;
+
     private int monstersKilled;
     private double totalDistanceRan;
+
     private long experience;
     private long experienceNeeded;
 
+    private long squatsComplete;
+    private long lungesComplete;
+    private long burpeesComplete;
+    private long shadowboxingComplete;
+    private long sprintsComplete;
+
+    //loaded characters
     public PlayerCharacter(String workoutClass, String pcName, int squatPwr, int lungePwr,
                            int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance,
                            int lungeChange, int burpeeChance, int shadowChance, int sprintChance,
                            int hp, int maxHp, int level, int monstersKilled, double totalDistanceRan,
-                           long experience, long experienceNeeded) {
+                           long experience, long experienceNeeded, long squatsComplete, long lungesComplete, long burpeesComplete, long shadowboxingComplete, long sprintsComplete) {
         this.workoutClass = workoutClass;
         this.pcName = pcName;
         this.squatPwr = squatPwr;
@@ -50,6 +62,37 @@ public class PlayerCharacter {
         this.totalDistanceRan = totalDistanceRan;
         this.experience = experience;
         this.experienceNeeded = experienceNeeded;
+        this.squatsComplete = squatsComplete;
+        this.lungesComplete = lungesComplete;
+        this.burpeesComplete = burpeesComplete;
+        this.shadowboxingComplete = shadowboxingComplete;
+        this.sprintsComplete = sprintsComplete;
+    }
+    //new characters
+    public PlayerCharacter(String workoutClass, String pcName, int squatPwr, int lungePwr,
+                           int burpeePwr, int shadowBoxingPwr, int sprintPwr, int squatChance,
+                           int lungeChange, int burpeeChance, int shadowChance, int sprintChance) {//for new characters
+        this.workoutClass = workoutClass;
+        this.pcName = pcName;
+        this.squatPwr = squatPwr;
+        this.lungePwr = lungePwr;
+        this.burpeePwr = burpeePwr;
+        this.shadowBoxingPwr = shadowBoxingPwr;
+        this.sprintPwr = sprintPwr;
+        this.squatChance = squatChance;
+        this.lungeChange = lungeChange;
+        this.burpeeChance = burpeeChance;
+        this.shadowChance = shadowChance;
+        this.sprintChance = sprintChance;
+        setLevel(1);
+        this.monstersKilled = 0;
+        this.totalDistanceRan = 0;
+        this.experience = 0;
+        this.squatsComplete = 0;
+        this.lungesComplete = 0;
+        this.burpeesComplete = 0;
+        this.shadowboxingComplete = 0;
+        this.sprintsComplete = 0;
     }
 
     public PlayerCharacter() {
@@ -143,6 +186,66 @@ public class PlayerCharacter {
         this.sprintChance = sprintChance;
     }
 
+    public long getExperienceNeeded() {
+        return experienceNeeded;
+    }
+
+    public void setExperienceNeeded(long experienceNeeded) {
+        this.experienceNeeded = experienceNeeded;
+    }
+
+    public long getSquatsComplete() {
+        return squatsComplete;
+    }
+
+    public void setSquatsComplete(long squatsComplete) {
+        this.squatsComplete = squatsComplete;
+    }
+
+    public long getLungesComplete() {
+        return lungesComplete;
+    }
+
+    public void setLungesComplete(long lungesComplete) {
+        this.lungesComplete = lungesComplete;
+        if (getLungesComplete()%100 == 0){
+            setLungePwr((int)getLungesComplete()/100 + 10);
+        }
+    }
+
+    public long getBurpeesComplete() {
+        return burpeesComplete;
+    }
+
+    public void setBurpeesComplete(long burpeesComplete) {
+        this.burpeesComplete = burpeesComplete;
+        if (getBurpeesComplete()%100 == 0){
+            setBurpeePwr((int)getBurpeesComplete()/100 + 10);
+        }
+    }
+
+    public long getShadowboxingComplete() {
+        return shadowboxingComplete;
+    }
+
+    public void setShadowboxingComplete(long shadowboxingComplete) {
+        this.shadowboxingComplete = shadowboxingComplete;
+        if (getShadowboxingComplete()%100 == 0){
+            setShadowBoxingPwr((int)getShadowboxingComplete()/100 + 10);
+        }
+    }
+
+    public long getSprintsComplete() {
+        return sprintsComplete;
+    }
+
+    public void setSprintsComplete(long sprintsComplete) {
+        this.sprintsComplete = sprintsComplete;
+        if (getSprintsComplete()%100 == 0){
+            setSprintPwr((int)getSprintsComplete()/100 + 10);
+        }
+    }
+
     public String toJSON() {
 
         JSONObject jsonObject = new JSONObject();
@@ -156,6 +259,14 @@ public class PlayerCharacter {
             jsonObject.put("lungeChance", getLungeChange());
             jsonObject.put("burpeeChance", getBurpeeChance());
             jsonObject.put("shadowChance", getShadowChance());
+            jsonObject.put("squatComplete", getSquatChance());
+            jsonObject.put("lungeComplete", getLungeChange());
+            jsonObject.put("burpeeComplete", getBurpeeChance());
+            jsonObject.put("shadowComplete", getShadowChance());
+            jsonObject.put("level", getLevel());
+            jsonObject.put("experience", getExperience());
+            jsonObject.put("experienceNeeded", getExperienceNeeded());
+            jsonObject.put("HP", getMaxHp());
             return jsonObject.toString();
         } catch (JSONException e) {
             // TODO Auto-generated catch block
