@@ -7,10 +7,8 @@ public class Monster {
     private int hp;
     private int maxHp;
 
-    public Monster(int level, long experience, int counterAttackPwr) {
-        this.level = level;
-        this.experience = experience;
-        this.counterAttackPwr = counterAttackPwr;
+    public Monster(int level) {
+        setLevel(level);
     }
     public Monster(){}
 

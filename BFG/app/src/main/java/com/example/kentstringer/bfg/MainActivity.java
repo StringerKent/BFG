@@ -2,6 +2,7 @@ package com.example.kentstringer.bfg;
 
 import android.Manifest;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -20,10 +21,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+import com.example.kentstringer.bfg.models.Monster;
+import com.example.kentstringer.bfg.models.PlayerCharacter;
+import com.example.kentstringer.bfg.models.User;
 
-    private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity{
+
+
     private ViewPager mViewPager;
+    public User user;
+    private PlayerCharacter pc;
+    private Monster monster;
 
 //    splash screen
 //    user creation
@@ -34,15 +44,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    Toast.makeText(getApplicationContext(), "Application requires access to location", Toast.LENGTH_SHORT).show();
-                }
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
-            }
+        Bundle bundle = getIntent().getExtras();
+        user = (User)bundle.getSerializable("user");
+        if (user == null) {
+            createTesterClasses();
         }
         setContentView(R.layout.main_activity);
         mViewPager = findViewById(R.id.container);
@@ -68,34 +74,42 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return mViewPager.getChildAt(index);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION_FINE_LOCATION_RESULT){
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getApplicationContext(), "Application will not run without premission", Toast.LENGTH_SHORT).show();
-            }
-        }
+    private void createTesterClasses() {
+        User testUSer = new User();
+        testUSer.setExperience(1000);
+        testUSer.setName("Kent Stringer");
+        testUSer.setTotalDistanceRun(100);
+        testUSer.setTotalMonsterKilled(10000);
+        PlayerCharacter testPlayerCharacter = new PlayerCharacter("Fighter", "Thor", 10, 10, 10,
+                10, 10, 25, 25, 25, 25,
+                0, 30, 30, 1, 1000, 1000, 999,
+                1000, 99, 99, 200, 99, 0);
+
+        testUSer.setActivePlayerCharacter(testPlayerCharacter);
+        PlayerCharacter testPlayerCharacter2 = new PlayerCharacter("Ranger", "Drizzt", 10, 10, 10,
+                10, 10, 20, 20, 20, 20,
+                20, 30, 30, 3, 1000, 1000, 0,
+                3000, 200, 200, 200, 200, 200);
+        PlayerCharacter testPlayerCharacter3 = new PlayerCharacter("Scout", "Running Boi", 10, 10, 10,
+                10, 10, 25, 25, 25, 0,
+                25, 30, 30, 3, 1000, 1000, 0,
+                3000, 200, 200, 200, 200, 200);
+
+        ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
+        user = testUSer;
+        pc = testPlayerCharacter;
+
+        playerCharacters.add(pc);
+        playerCharacters.add(testPlayerCharacter2);
+        playerCharacters.add(testPlayerCharacter3);
+        user.setPlayerCharacters(playerCharacters);
+        monster = new Monster();
+        monster.setLevel(1);
     }
 
-
     @Override
-    public void onLocationChanged(Location location) {
-
+    public void onBackPressed() {
+        mViewPager.setCurrentItem(1);
     }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }

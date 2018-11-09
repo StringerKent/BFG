@@ -3,11 +3,13 @@ package com.example.kentstringer.bfg.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PlayerCharacter {
+import java.io.Serializable;
+
+public class PlayerCharacter implements Serializable {
 
 
     private String workoutClass;
-    private String pcName;
+    private String pcName = "Thor";
 
     private int squatPwr;
     private int lungePwr;
@@ -200,6 +202,9 @@ public class PlayerCharacter {
 
     public void setSquatsComplete(long squatsComplete) {
         this.squatsComplete = squatsComplete;
+        if (getSquatsComplete()%100 == 0){
+            setSquatPwr((int)getSquatsComplete()/10 + 10);
+        }
     }
 
     public long getLungesComplete() {
@@ -209,7 +214,7 @@ public class PlayerCharacter {
     public void setLungesComplete(long lungesComplete) {
         this.lungesComplete = lungesComplete;
         if (getLungesComplete()%100 == 0){
-            setLungePwr((int)getLungesComplete()/100 + 10);
+            setLungePwr((int)getLungesComplete()/10 + 10);
         }
     }
 
@@ -220,7 +225,7 @@ public class PlayerCharacter {
     public void setBurpeesComplete(long burpeesComplete) {
         this.burpeesComplete = burpeesComplete;
         if (getBurpeesComplete()%100 == 0){
-            setBurpeePwr((int)getBurpeesComplete()/100 + 10);
+            setBurpeePwr((int)getBurpeesComplete()/10 + 10);
         }
     }
 
@@ -231,7 +236,7 @@ public class PlayerCharacter {
     public void setShadowboxingComplete(long shadowboxingComplete) {
         this.shadowboxingComplete = shadowboxingComplete;
         if (getShadowboxingComplete()%100 == 0){
-            setShadowBoxingPwr((int)getShadowboxingComplete()/100 + 10);
+            setShadowBoxingPwr((int)getShadowboxingComplete()/10 + 10);
         }
     }
 
@@ -242,7 +247,7 @@ public class PlayerCharacter {
     public void setSprintsComplete(long sprintsComplete) {
         this.sprintsComplete = sprintsComplete;
         if (getSprintsComplete()%100 == 0){
-            setSprintPwr((int)getSprintsComplete()/100 + 10);
+            setSprintPwr((int)getSprintsComplete()/10 + 10);
         }
     }
 
@@ -255,18 +260,25 @@ public class PlayerCharacter {
             jsonObject.put("lungePwr", getLungePwr());
             jsonObject.put("burpeePwr", getBurpeePwr());
             jsonObject.put("shadowPwr", getShadowBoxingPwr());
+            jsonObject.put("sprintPwr", getSprintPwr());
+            jsonObject.put("sprintChance", getSprintChance());
+            jsonObject.put("sprintComplete", getSprintsComplete());
             jsonObject.put("squatChance", getSquatChance());
             jsonObject.put("lungeChance", getLungeChange());
             jsonObject.put("burpeeChance", getBurpeeChance());
             jsonObject.put("shadowChance", getShadowChance());
-            jsonObject.put("squatComplete", getSquatChance());
-            jsonObject.put("lungeComplete", getLungeChange());
-            jsonObject.put("burpeeComplete", getBurpeeChance());
-            jsonObject.put("shadowComplete", getShadowChance());
+            jsonObject.put("squatComplete", getSquatsComplete());
+            jsonObject.put("lungeComplete", getLungesComplete());
+            jsonObject.put("burpeeComplete", getBurpeesComplete());
+            jsonObject.put("shadowComplete", getShadowboxingComplete());
             jsonObject.put("level", getLevel());
             jsonObject.put("experience", getExperience());
             jsonObject.put("experienceNeeded", getExperienceNeeded());
             jsonObject.put("HP", getMaxHp());
+            jsonObject.put("class", getWorkoutClass());
+            jsonObject.put("monstersKilled", getMonstersKilled());
+            jsonObject.put("totalDistanceRan", getTotalDistanceRan());
+
             return jsonObject.toString();
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -312,16 +324,16 @@ public class PlayerCharacter {
 
     public void levelUp(){
         int level = getLevel();
-        setLevel(level++);
+        setLevel(++level);
+        setExperience(0);
     }
 
     public void killMonster(long xpEarned){
-        int num = getMonstersKilled();
-        setMonstersKilled(num++);
+        int num = getMonstersKilled() + 1;
+        setMonstersKilled(num);
         long experience = getExperience() + xpEarned;
         if (experience >= experienceNeeded){
             levelUp();
-            setExperience(0);
         }else{
             setExperience(experience);
         }

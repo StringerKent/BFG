@@ -3,9 +3,10 @@ package com.example.kentstringer.bfg.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private String name;
     private int level;
     private long experience;
@@ -71,10 +72,17 @@ public class User {
 
     public void setExperience(long experience) {
         this.experience = experience;
+        if (getExperience() >= 2500*getLevel()){
+            setLevel(getLevel()+1);
+        }
     }
 
     public double getTotalDistanceRun() {
-        return totalDistanceRun;
+        double total = 0;
+        for (PlayerCharacter pc:playerCharacters) {
+            total += pc.getTotalDistanceRan();
+        }
+        return total;
     }
 
     public void setTotalDistanceRun(double totalDistanceRun) {
@@ -96,6 +104,10 @@ public class User {
     public void setPlayerCharacters(ArrayList<PlayerCharacter> playerCharacters) {
         this.playerCharacters = playerCharacters;
     }
+
+    public void receiveXP(long xp){
+        setExperience(getExperience() + xp);
+    }
     public String toJSON(){
 
         JSONObject jsonObject= new JSONObject();
@@ -105,7 +117,12 @@ public class User {
             jsonObject.put("name", getName());
             jsonObject.put("kills", getTotalMonsterKilled());
             jsonObject.put("distance", getTotalDistanceRun());
-            jsonObject.put("characters", getPlayerCharacters());
+            jsonObject.put("characterNum", getPlayerCharacters().size());
+
+            for (int i = 0; i < getPlayerCharacters().size(); i++) {
+                jsonObject.put("character" + i, getPlayerCharacters().get(i).toJSON());
+            }
+
             return jsonObject.toString();
         } catch (JSONException e) {
             // TODO Auto-generated catch block

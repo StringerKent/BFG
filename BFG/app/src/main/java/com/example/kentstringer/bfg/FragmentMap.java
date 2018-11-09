@@ -2,13 +2,13 @@ package com.example.kentstringer.bfg;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.storage.StorageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kentstringer.bfg.models.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -27,6 +28,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.Random;
@@ -45,13 +49,15 @@ public class FragmentMap extends Fragment implements LocationListener {
     private boolean onRun = false;
     private Timer myTimer;
     private int noMovementCount = 0;
+    private User user;
+    SharedPreferences sharedpreferences;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, null, false);
-
+        user = ((MainActivity)getActivity()).user;
         mMapView = view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -100,6 +106,18 @@ public class FragmentMap extends Fragment implements LocationListener {
                     runStartLocation = l;
                     runStartTime = System.currentTimeMillis();
                     runTotalDistance = 0;
+                }else{
+                    user.getActivePlayerCharacter().setTotalDistanceRan(user.getActivePlayerCharacter().getTotalDistanceRan() + runTotalDistance);
+                    String str = user.toJSON();
+                    try {
+                        JSONObject j = new JSONObject(str);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    sharedpreferences = getContext().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("user", str);
+                    editor.commit();
                 }
                 onRun = !onRun;
             }
@@ -188,7 +206,7 @@ public class FragmentMap extends Fragment implements LocationListener {
 
             if(randy.nextInt(10) > 4 && s.isChecked()){
                 View v = ((MainActivity)getActivity()).getViewPager(1);
-                TextView tv = v.findViewById(R.id.textTitle);
+                TextView tv = v.findViewById(R.id.characterName);
                 Button b = v.findViewById(R.id.beginWorkOut);
                 if (!tv.getText().equals("Encounter!")) {
                     tv.setText("Encounter!");

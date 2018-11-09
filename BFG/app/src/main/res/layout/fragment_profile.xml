@@ -7,6 +7,34 @@
     tools:context=".FragmentProfile">
 
     <!-- TODO: Update blank fragment layout -->
+    <Spinner
+        android:id="@+id/classChooser"
+        android:layout_width="322dp"
+        android:layout_height="44dp"
+        android:layout_below="@+id/characterName"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="487dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="125dp"
+        android:entries="@array/class_list" />
+
+    <EditText
+        android:id="@+id/characterName"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="461dp"
+        android:layout_marginEnd="46dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Character Name" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,15 +42,152 @@
         android:textSize="25sp"
         android:text="Welcome to Profile"
         android:layout_marginTop="4dp"
-        android:id="@+id/textTitle"/>
+        android:id="@+id/characterName"/>
 
     <Button
+        android:id="@+id/btnNavSecondActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textTitle"
+        android:layout_below="@id/characterName"
         android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Go to Second Activity"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnNavSecondActivity"/>
+        android:layout_marginTop="360dp"
+        android:text="Characters"
+        android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/createCharButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/characterName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="577dp"
+        android:text="Create New Character"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="99dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_toStartOf="@+id/btnNavSecondActivity"
+        android:text="Name: " />
+
+    <TextView
+        android:id="@+id/nameInput"
+        android:layout_width="154dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/nameView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="2dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/levelView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="149dp"
+        android:text="Level: " />
+
+    <TextView
+        android:id="@+id/levelInput"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameInput"
+        android:layout_alignTop="@+id/levelView"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/runView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="291dp"
+        android:text="Total Distance Run: " />
+
+    <TextView
+        android:id="@+id/runInput"
+        android:layout_width="117dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/runView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="65dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/killsInput"
+        android:layout_width="117dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/runView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="61dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/killsView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="354dp"
+        android:text="Total Monsters Killed" />
+
+    <TextView
+        android:id="@+id/xpView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="190dp"
+        android:text="Current Experience: " />
+
+    <TextView
+        android:id="@+id/xpInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/runInput"
+        android:layout_alignTop="@+id/xpView"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/xpNeededView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="241dp"
+        android:text="Next Level: " />
+
+    <TextView
+        android:id="@+id/xpNeededInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/runInput"
+        android:layout_alignTop="@+id/xpNeededView"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/activeView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="53dp"
+        android:text="Active Character" />
+
+    <TextView
+        android:id="@+id/activeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/runInput"
+        android:layout_alignTop="@+id/activeView"
+        android:text="TextView" />
 </RelativeLayout>
