@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
+import java.text.DecimalFormat;
+
 public class FragmentCharacterSheet extends Fragment {
     private PlayerCharacter pc;
     private Handler handler = new Handler();
@@ -64,7 +66,11 @@ public class FragmentCharacterSheet extends Fragment {
         xpNeededInput.setText("Monsters Killed: " + pc.getMonstersKilled());
 
         TextView runInput = getView().findViewById(R.id.characterDistance);
-        runInput.setText("Distance Ran: " +pc.getTotalDistanceRan() + " Miles");
+        int miles = (int)+pc.getTotalDistanceRan()/5280;
+        double subMile = (+pc.getTotalDistanceRan()%5280)/5280;
+        DecimalFormat df = new DecimalFormat(".##");
+        String subMileFormatted = df.format(subMile);
+        runInput.setText("Distance Ran: " +miles + "" + subMileFormatted + " Miles");
 
         TextView killsInput = getView().findViewById(R.id.characterXP);
         killsInput.setText("Current XP: " +pc.getExperience() + "");

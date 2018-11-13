@@ -25,10 +25,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="229dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="59dp" />
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="282dp" />
 
     <Button
         android:id="@+id/runButton"
@@ -46,8 +46,9 @@
         android:layout_alignStart="@+id/mapView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="310dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="570dp"
+        android:layout_marginEnd="283dp"
         android:text="Time: " />
 
     <TextView
@@ -57,9 +58,9 @@
         android:layout_alignStart="@+id/mapView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="149dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="572dp"
+        android:layout_marginEnd="92dp"
         android:text="0:0:0" />
 
     <TextView
@@ -69,9 +70,9 @@
         android:layout_alignStart="@+id/mapView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="98dp"
-        android:layout_marginEnd="132dp"
+        android:layout_marginStart="121dp"
+        android:layout_marginTop="602dp"
+        android:layout_marginEnd="80dp"
         android:text="0.0" />
 
     <TextView
@@ -81,8 +82,9 @@
         android:layout_alignStart="@+id/mapView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="98dp"
-        android:layout_marginEnd="290dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="602dp"
+        android:layout_marginEnd="265dp"
         android:text="Distance:" />
 
     <Switch
@@ -91,8 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="225dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginTop="423dp"
+        android:layout_marginEnd="19dp"
         android:text="Looking for Trouble" />
 
 </RelativeLayout>

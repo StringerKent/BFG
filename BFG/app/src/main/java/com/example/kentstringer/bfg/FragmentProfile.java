@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -101,7 +102,11 @@ public class FragmentProfile extends Fragment {
             xpNeededInput.setText((user.getLevel() * 2500) + "");
 
             TextView runInput = getView().findViewById(R.id.runInput);
-            runInput.setText(user.getTotalDistanceRun() + " Miles");
+            int miles = (int)+user.getTotalDistanceRun()/5280;
+            double subMile = (+user.getTotalDistanceRun()%5280)/5280;
+            DecimalFormat df = new DecimalFormat(".##");
+            String subMileFormatted = df.format(subMile);
+            runInput.setText(miles + "" + subMileFormatted + " Miles");
 
             TextView killsInput = getView().findViewById(R.id.killsInput);
             killsInput.setText(user.getTotalMonsterKilled() + "");

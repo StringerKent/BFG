@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity{
 
         Bundle bundle = getIntent().getExtras();
         user = (User)bundle.getSerializable("user");
-        if (user == null) {
-            createTesterClasses();
-        }
         setContentView(R.layout.main_activity);
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
         adapter.addFragment(new FragmentCircut(), "Train");
         adapter.addFragment(new FragmentMap(), "Map");
         adapter.addFragment(new FragmentProfile(), "Profile");
-        adapter.addFragment(new FragmentExercise(), "Demo Exercise");
+        //adapter.addFragment(new FragmentExercise(), "Demo Exercise");
         viewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(1);
     }
@@ -72,39 +69,6 @@ public class MainActivity extends AppCompatActivity{
 
     public View getViewPager(int index){
         return mViewPager.getChildAt(index);
-    }
-
-    private void createTesterClasses() {
-        User testUSer = new User();
-        testUSer.setExperience(1000);
-        testUSer.setName("Kent Stringer");
-        testUSer.setTotalDistanceRun(100);
-        testUSer.setTotalMonsterKilled(10000);
-        PlayerCharacter testPlayerCharacter = new PlayerCharacter("Fighter", "Thor", 10, 10, 10,
-                10, 10, 25, 25, 25, 25,
-                0, 30, 30, 1, 1000, 1000, 999,
-                1000, 99, 99, 200, 99, 0);
-
-        testUSer.setActivePlayerCharacter(testPlayerCharacter);
-        PlayerCharacter testPlayerCharacter2 = new PlayerCharacter("Ranger", "Drizzt", 10, 10, 10,
-                10, 10, 20, 20, 20, 20,
-                20, 30, 30, 3, 1000, 1000, 0,
-                3000, 200, 200, 200, 200, 200);
-        PlayerCharacter testPlayerCharacter3 = new PlayerCharacter("Scout", "Running Boi", 10, 10, 10,
-                10, 10, 25, 25, 25, 0,
-                25, 30, 30, 3, 1000, 1000, 0,
-                3000, 200, 200, 200, 200, 200);
-
-        ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
-        user = testUSer;
-        pc = testPlayerCharacter;
-
-        playerCharacters.add(pc);
-        playerCharacters.add(testPlayerCharacter2);
-        playerCharacters.add(testPlayerCharacter3);
-        user.setPlayerCharacters(playerCharacters);
-        monster = new Monster();
-        monster.setLevel(1);
     }
 
     @Override

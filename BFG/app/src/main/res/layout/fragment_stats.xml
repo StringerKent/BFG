@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StatsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/totalSquat"
+        android:layout_width="146dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="79dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/totalLunge"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="122dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/totalBurpee"
+        android:layout_width="147dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="167dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/totalShadow"
+        android:layout_width="146dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="220dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="107dp"
+        android:text="Total Stats"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/totalSprints"
+        android:layout_width="143dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="276dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgSquatPwr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="198dp"
+        android:layout_marginTop="76dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgLungePwr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="198dp"
+        android:layout_marginTop="121dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgBurpeePwr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="168dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgShadowPwr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="199dp"
+        android:layout_marginTop="221dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgSprintPwr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginBottom="399dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/characterNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="156dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/avgLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/characterNum"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="278dp"
+        android:text="TextView" />
+</RelativeLayout>
