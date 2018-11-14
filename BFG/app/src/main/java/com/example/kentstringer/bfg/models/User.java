@@ -50,6 +50,20 @@ public class User implements Serializable {
 
     }
 
+    public void removeCharacter(PlayerCharacter c){
+        if (playerCharacters.contains(c)){
+            playerCharacters.remove(c);
+            if (c == getActivePlayerCharacter()){
+                if (playerCharacters.size() == 0){
+                    setActivePlayerCharacter(null);
+                }else{
+                    setActivePlayerCharacter(getPlayerCharacters().get(0));
+                }
+            }
+        }
+
+    }
+
     public String getName() {
         return name;
     }

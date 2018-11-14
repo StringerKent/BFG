@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     SharedPreferences sp;
     private User user = null;
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
 
+        mp = MediaPlayer.create(this, R.raw.splash);
+        mp.start();
+
         final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         final Intent intentUser = new Intent(getApplicationContext(), UserCreationActivity.class);
         sp = getSharedPreferences("userSave", Context.MODE_PRIVATE);
@@ -56,7 +61,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    mp.stop();
                     startActivity(intent);
+
                     finish();
                 }
             }, 2000);
@@ -64,6 +71,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    mp.stop();
                     startActivity(intentUser);
                     finish();
                 }

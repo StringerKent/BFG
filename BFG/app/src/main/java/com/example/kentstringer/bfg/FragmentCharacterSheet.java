@@ -1,6 +1,7 @@
 package com.example.kentstringer.bfg;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,12 +17,16 @@ import android.widget.Toast;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 
 public class FragmentCharacterSheet extends Fragment {
     private PlayerCharacter pc;
     private Handler handler = new Handler();
     private User user;
+    SharedPreferences sharedpreferences;
 
     @Nullable
     @Override
@@ -44,6 +49,34 @@ public class FragmentCharacterSheet extends Fragment {
             public void onClick(View view){
                 user.setActivePlayerCharacter(pc);
                 Toast.makeText(getContext(), "Active character set", Toast.LENGTH_SHORT).show();
+            }
+        });
+        Button deleteButton = view.findViewById(R.id.deleteCharacter);
+        if(user.getPlayerCharacters().size() == 1) {
+            deleteButton.setVisibility(View.GONE);
+        }
+
+        deleteButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                user.removeCharacter(pc);
+                Toast.makeText(getContext(), "Character removed!", Toast.LENGTH_SHORT).show();
+                String str = user.toJSON();
+                try {
+                    JSONObject j = new JSONObject(str);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                sharedpreferences = getActivity().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("user", str);
+                editor.commit();
+
+                final Intent intent = new Intent(getContext(), MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("user", user);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         return view;

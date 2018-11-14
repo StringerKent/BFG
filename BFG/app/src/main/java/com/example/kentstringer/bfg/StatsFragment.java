@@ -1,6 +1,8 @@
 package com.example.kentstringer.bfg;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,30 +10,39 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class StatsFragment extends Fragment {
-  private User user;
-  private int allSquats;
-  private int allLunges;
-  private int allBurpees;
-  private int allShadowBoxing;
-  private int allSprints;
-  private int avgLevel;
-  private int avgSquatPwr;
-  private int avgLungePwr;
-  private int avgBurpeePwr;
-  private int avgShadowBoxingPwr;
-  private int avgSprintPwr;
-    private Handler handler = new Handler();
+      private User user;
+      private int allSquats;
+      private int allLunges;
+      private int allBurpees;
+      private int allShadowBoxing;
+      private int allSprints;
+      private int avgLevel;
+      private int avgSquatPwr;
+      private int avgLungePwr;
+      private int avgBurpeePwr;
+      private int avgShadowBoxingPwr;
+      private int avgSprintPwr;
+      private Handler handler = new Handler();
+    SharedPreferences sharedpreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //View view = inflater.inflate(R.layout.fragment_stats, container, false);
+        View view = inflater.inflate(R.layout.fragment_stats, container, false);
         user = ((SecondActivity)getActivity()).user;
+
+
         int totalLevel = 0;
         int totalSquatPwr= 0;
         int totalLungePwr = 0;

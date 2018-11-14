@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,6 +52,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     private int noMovementCount = 0;
     private User user;
     SharedPreferences sharedpreferences;
+    private MediaPlayer mp;
 
 
     @Override
@@ -205,6 +207,8 @@ public class FragmentMap extends Fragment implements LocationListener {
             Switch s = getView().findViewById(R.id.troubleSwitch);
 
             if(randy.nextInt(10) > 4 && s.isChecked()){
+                mp = MediaPlayer.create(getContext(), R.raw.battlestart);
+                mp.start();
                 View v = ((MainActivity)getActivity()).getViewPager(1);
                 TextView tv = v.findViewById(R.id.characterName);
                 Button b = v.findViewById(R.id.beginWorkOut);

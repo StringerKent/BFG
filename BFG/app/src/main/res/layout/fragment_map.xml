@@ -3,19 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_action_bar_splitter"
     android:orientation="vertical"
     tools:context=".FragmentMap">
 
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/characterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="25sp"
-        android:text="Welcome to Map"
         android:layout_marginTop="4dp"
-        android:id="@+id/characterName"/>
+        android:text="Welcome to Map"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="25sp" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
@@ -37,7 +39,9 @@
         android:layout_alignStart="@+id/mapView"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="3dp"
-        android:text="Start Run" />
+        android:background="@color/common_google_signin_btn_text_dark_focused"
+        android:text="Start Run"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <TextView
         android:id="@+id/runTime"
@@ -49,7 +53,8 @@
         android:layout_marginStart="27dp"
         android:layout_marginTop="570dp"
         android:layout_marginEnd="283dp"
-        android:text="Time: " />
+        android:text="Time: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/runTime2"
@@ -61,7 +66,8 @@
         android:layout_marginStart="109dp"
         android:layout_marginTop="572dp"
         android:layout_marginEnd="92dp"
-        android:text="0:0:0" />
+        android:text="0:0:0"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/distance"
@@ -73,7 +79,8 @@
         android:layout_marginStart="121dp"
         android:layout_marginTop="602dp"
         android:layout_marginEnd="80dp"
-        android:text="0.0" />
+        android:text="0.0"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/distanceRun"
@@ -85,7 +92,8 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="602dp"
         android:layout_marginEnd="265dp"
-        android:text="Distance:" />
+        android:text="Distance:"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <Switch
         android:id="@+id/troubleSwitch"
@@ -95,6 +103,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="423dp"
         android:layout_marginEnd="19dp"
-        android:text="Looking for Trouble" />
+        android:text="Looking for Trouble"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
 </RelativeLayout>
