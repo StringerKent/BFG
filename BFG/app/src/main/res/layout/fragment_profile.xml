@@ -8,38 +8,9 @@
     tools:context=".FragmentProfile">
 
     <!-- TODO: Update blank fragment layout -->
-    <Spinner
-        android:id="@+id/classChooser"
-        android:layout_width="322dp"
-        android:layout_height="44dp"
-        android:layout_below="@+id/characterName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="487dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginBottom="125dp"
-        android:entries="@array/class_list"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <EditText
-        android:id="@+id/characterName"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="461dp"
-        android:layout_marginEnd="46dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Character Name"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
-        android:id="@+id/characterName"
+        android:id="@+id/nameSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -50,25 +21,14 @@
 
     <Button
         android:id="@+id/btnNavSecondActivity"
-        android:layout_width="wrap_content"
+        android:layout_width="185dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/characterName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="360dp"
+        android:layout_below="@id/nameSelect"
+        android:layout_alignEnd="@+id/xpInput"
+        android:layout_marginTop="590dp"
+        android:layout_marginEnd="-25dp"
         android:background="@color/common_google_signin_btn_text_dark_focused"
         android:text="Characters"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="25sp" />
-
-    <Button
-        android:id="@+id/createCharButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/characterName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="577dp"
-        android:background="@color/common_google_signin_btn_text_dark_focused"
-        android:text="Create New Character"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="25sp" />
 
@@ -136,12 +96,12 @@
 
     <TextView
         android:id="@+id/killsInput"
-        android:layout_width="117dp"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="29dp"
         android:layout_alignTop="@+id/runView"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="61dp"
-        android:layout_marginEnd="61dp"
+        android:layout_marginEnd="62dp"
         android:text="TextView"
         android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 

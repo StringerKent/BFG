@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -53,6 +54,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     private User user;
     SharedPreferences sharedpreferences;
     private MediaPlayer mp;
+    private Handler myHandler = new Handler();
 
 
     @Override
@@ -135,6 +137,17 @@ public class FragmentMap extends Fragment implements LocationListener {
 
         }, 0, 1000);
 
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                getLocation();
+                @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            }
+        };
+        myHandler.postDelayed(runnable, 500);
 
         return view;
 
@@ -210,7 +223,7 @@ public class FragmentMap extends Fragment implements LocationListener {
                 mp = MediaPlayer.create(getContext(), R.raw.battlestart);
                 mp.start();
                 View v = ((MainActivity)getActivity()).getViewPager(1);
-                TextView tv = v.findViewById(R.id.characterName);
+                TextView tv = v.findViewById(R.id.nameSelect);
                 Button b = v.findViewById(R.id.beginWorkOut);
                 if (!tv.getText().equals("Encounter!")) {
                     tv.setText("Encounter!");

@@ -224,7 +224,7 @@ public class PlayerCharacter implements Serializable {
 
     public void setBurpeesComplete(long burpeesComplete) {
         this.burpeesComplete = burpeesComplete;
-        if (getBurpeesComplete()%100 == 0){
+        if (getBurpeesComplete()%50 == 0){
             setBurpeePwr((int)getBurpeesComplete()/10 + 10);
         }
     }
@@ -235,7 +235,7 @@ public class PlayerCharacter implements Serializable {
 
     public void setShadowboxingComplete(long shadowboxingComplete) {
         this.shadowboxingComplete = shadowboxingComplete;
-        if (getShadowboxingComplete()%100 == 0){
+        if (getShadowboxingComplete()%150 == 0){
             setShadowBoxingPwr((int)getShadowboxingComplete()/10 + 10);
         }
     }
@@ -246,7 +246,7 @@ public class PlayerCharacter implements Serializable {
 
     public void setSprintsComplete(long sprintsComplete) {
         this.sprintsComplete = sprintsComplete;
-        if (getSprintsComplete()%100 == 0){
+        if (getSprintsComplete()%20 == 0){
             setSprintPwr((int)getSprintsComplete()/10 + 10);
         }
     }

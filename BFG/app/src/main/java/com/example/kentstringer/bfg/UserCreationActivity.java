@@ -30,7 +30,7 @@ public class UserCreationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String userFirstName = ((TextView)findViewById(R.id.userFirstName)).getText().toString();
                 String userLastName = ((TextView)findViewById(R.id.userLastName)).getText().toString();
-                String characterName = ((TextView)findViewById(R.id.characterName)).getText().toString();
+                String characterName = ((TextView)findViewById(R.id.nameSelect)).getText().toString();
                 String characterClass = ((Spinner)findViewById(R.id.spinner)).getSelectedItem().toString();
                 ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
                 user = new User(userFirstName + " " + userLastName, 1, 0, playerCharacters, 0 ,0);

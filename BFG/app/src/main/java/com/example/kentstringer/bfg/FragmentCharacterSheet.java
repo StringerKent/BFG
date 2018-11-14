@@ -33,6 +33,7 @@ public class FragmentCharacterSheet extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_character_sheet, container, false);
         Bundle bundle = getArguments();
+
         pc = (PlayerCharacter) bundle.getSerializable("pc");
         Runnable runnable = new Runnable() {
             @Override
@@ -40,7 +41,7 @@ public class FragmentCharacterSheet extends Fragment {
                 createCharacter();
             }
         };
-        handler.postDelayed(runnable, 500);
+        handler.postDelayed(runnable, 100);
         user = ((SecondActivity)getActivity()).user;
         Button btnNavSecondActivity = view.findViewById(R.id.activeButton);
 
@@ -83,78 +84,82 @@ public class FragmentCharacterSheet extends Fragment {
     }
 
     private void createCharacter() {
-        TextView nameInput = getView().findViewById(R.id.characterName);
-        nameInput.setText(pc.getPcName());
+        try {
+            TextView nameInput = getView().findViewById(R.id.charName);
+            nameInput.setText(pc.getPcName());
 
-        TextView classInput = getView().findViewById(R.id.characterClass);
-        classInput.setText(pc.getWorkoutClass());
+            TextView classInput = getView().findViewById(R.id.characterClass);
+            classInput.setText(pc.getWorkoutClass());
 
-        TextView levelInput = getView().findViewById(R.id.characterLevel);
-        levelInput.setText("Level: " + pc.getLevel());
+            TextView levelInput = getView().findViewById(R.id.characterLevel);
+            levelInput.setText("Level: " + pc.getLevel());
 
-        TextView xpInput = getView().findViewById(R.id.characterHealth);
-        xpInput.setText("Max Health: " + pc.getMaxHp() + "");
+            TextView xpInput = getView().findViewById(R.id.characterHealth);
+            xpInput.setText("Max Health: " + pc.getMaxHp() + "");
 
-        TextView xpNeededInput = getView().findViewById(R.id.characterKills);
-        xpNeededInput.setText("Monsters Killed: " + pc.getMonstersKilled());
+            TextView xpNeededInput = getView().findViewById(R.id.characterKills);
+            xpNeededInput.setText("Monsters Killed: " + pc.getMonstersKilled());
 
-        TextView runInput = getView().findViewById(R.id.characterDistance);
-        int miles = (int)+pc.getTotalDistanceRan()/5280;
-        double subMile = (+pc.getTotalDistanceRan()%5280)/5280;
-        DecimalFormat df = new DecimalFormat(".##");
-        String subMileFormatted = df.format(subMile);
-        runInput.setText("Distance Ran: " +miles + "" + subMileFormatted + " Miles");
+            TextView runInput = getView().findViewById(R.id.characterDistance);
+            int miles = (int) +pc.getTotalDistanceRan() / 5280;
+            double subMile = (+pc.getTotalDistanceRan() % 5280) / 5280;
+            DecimalFormat df = new DecimalFormat(".##");
+            String subMileFormatted = df.format(subMile);
+            runInput.setText("Distance Ran: " + miles + "" + subMileFormatted + " Miles");
 
-        TextView killsInput = getView().findViewById(R.id.characterXP);
-        killsInput.setText("Current XP: " +pc.getExperience() + "");
+            TextView killsInput = getView().findViewById(R.id.characterXP);
+            killsInput.setText("Current XP: " + pc.getExperience() + "");
 
-        TextView xpneeded = getView().findViewById(R.id.characterNeededXP);
-        xpneeded.setText("XP to next level: " + pc.getExperienceNeeded() + "");
+            TextView xpneeded = getView().findViewById(R.id.characterNeededXP);
+            xpneeded.setText("XP to next level: " + pc.getExperienceNeeded() + "");
 
-        TextView squatPwr = getView().findViewById(R.id.squatPwr);
-        squatPwr.setText("Power: " +pc.getSquatPwr() + "");
+            TextView squatPwr = getView().findViewById(R.id.squatPwr);
+            squatPwr.setText("Power: " + pc.getSquatPwr() + "");
 
-        TextView squatComplete = getView().findViewById(R.id.squatsComplete);
-        squatComplete.setText("Complete: " +pc.getSquatsComplete() + "");
+            TextView squatComplete = getView().findViewById(R.id.squatsComplete);
+            squatComplete.setText("Complete: " + pc.getSquatsComplete() + "");
 
-        TextView squatChance = getView().findViewById(R.id.squatChance);
-        squatChance.setText("Chance: "+ pc.getSquatChance() +"%");
+            TextView squatChance = getView().findViewById(R.id.squatChance);
+            squatChance.setText("Chance: " + pc.getSquatChance() + "%");
 
-        TextView lungePwr = getView().findViewById(R.id.lungesPwr);
-        lungePwr.setText("Power: " +pc.getLungePwr() + "");
+            TextView lungePwr = getView().findViewById(R.id.lungesPwr);
+            lungePwr.setText("Power: " + pc.getLungePwr() + "");
 
-        TextView lungesComplete = getView().findViewById(R.id.lungesComplete);
-        lungesComplete.setText("Complete: " +pc.getLungesComplete() + "");
+            TextView lungesComplete = getView().findViewById(R.id.lungesComplete);
+            lungesComplete.setText("Complete: " + pc.getLungesComplete() + "");
 
-        TextView lungesChance = getView().findViewById(R.id.lungesChance);
-        lungesChance.setText("Chance: "+ pc.getLungeChange() +"%");
+            TextView lungesChance = getView().findViewById(R.id.lungesChance);
+            lungesChance.setText("Chance: " + pc.getLungeChange() + "%");
 
-        TextView burpeesPwr = getView().findViewById(R.id.burpeesPwr);
-        burpeesPwr.setText("Power: " +pc.getBurpeePwr() + "");
+            TextView burpeesPwr = getView().findViewById(R.id.burpeesPwr);
+            burpeesPwr.setText("Power: " + pc.getBurpeePwr() + "");
 
-        TextView burpeesComplete = getView().findViewById(R.id.burpeesComplete);
-        burpeesComplete.setText("Complete: " +pc.getBurpeesComplete() + "");
+            TextView burpeesComplete = getView().findViewById(R.id.burpeesComplete);
+            burpeesComplete.setText("Complete: " + pc.getBurpeesComplete() + "");
 
-        TextView burpeesChance = getView().findViewById(R.id.burpeesChance);
-        burpeesChance.setText("Chance: "+ pc.getBurpeeChance() +"%");
+            TextView burpeesChance = getView().findViewById(R.id.burpeesChance);
+            burpeesChance.setText("Chance: " + pc.getBurpeeChance() + "%");
 
-        TextView shadowPwr = getView().findViewById(R.id.shadowPwr);
-        shadowPwr.setText("Power: " +pc.getShadowBoxingPwr() + "");
+            TextView shadowPwr = getView().findViewById(R.id.shadowPwr);
+            shadowPwr.setText("Power: " + pc.getShadowBoxingPwr() + "");
 
-        TextView shadowComplete = getView().findViewById(R.id.shadowComplete);
-        shadowComplete.setText("Complete: " +pc.getShadowboxingComplete() + "");
+            TextView shadowComplete = getView().findViewById(R.id.shadowComplete);
+            shadowComplete.setText("Complete: " + pc.getShadowboxingComplete() + "");
 
-        TextView shadowChance = getView().findViewById(R.id.shadowChance);
-        shadowChance.setText("Chance: "+ pc.getShadowChance() + "%");
+            TextView shadowChance = getView().findViewById(R.id.shadowChance);
+            shadowChance.setText("Chance: " + pc.getShadowChance() + "%");
 
-        TextView sprintPwr = getView().findViewById(R.id.sprintsPwr);
-        sprintPwr.setText("Power: " +pc.getSprintPwr() + "");
+            TextView sprintPwr = getView().findViewById(R.id.sprintsPwr);
+            sprintPwr.setText("Power: " + pc.getSprintPwr() + "");
 
-        TextView sprintComplete = getView().findViewById(R.id.sprintsComplete);
-        sprintComplete.setText("Complete: " +pc.getSprintsComplete() + "");
+            TextView sprintComplete = getView().findViewById(R.id.sprintsComplete);
+            sprintComplete.setText("Complete: " + pc.getSprintsComplete() + "");
 
-        TextView sprintChance = getView().findViewById(R.id.sprintsChance);
-        sprintChance.setText("Chance: "+ pc.getSprintChance() + "%");
+            TextView sprintChance = getView().findViewById(R.id.sprintsChance);
+            sprintChance.setText("Chance: " + pc.getSprintChance() + "%");
+        }catch (NullPointerException npe){
+            createCharacter();
+        }
     }
 
 

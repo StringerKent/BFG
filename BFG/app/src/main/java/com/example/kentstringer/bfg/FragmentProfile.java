@@ -18,8 +18,6 @@ import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
 import java.text.DecimalFormat;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class FragmentProfile extends Fragment {
     private Button btnNavSecondActivity;
@@ -47,32 +45,6 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-        final Button button = view.findViewById(R.id.createCharButton);
-        button.setOnClickListener(new View.OnClickListener() {
-              public void onClick(View v) {
-                  TextView tv =  getView().findViewById(R.id.characterName);
-                  String name = tv.getText().toString();
-                  String characterClass = (String) ((Spinner) getView().findViewById(R.id.classChooser)).getSelectedItem();
-                  PlayerCharacter pc;
-                  switch (characterClass) {
-                      case "Fighter - Strength Based":
-                          pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
-                                  10, 10, 25, 25, 25, 25, 0);
-                          break;
-                      case "Ranger - Balanced Class":
-                          pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
-                                  10, 10, 25, 25, 25, 0, 25);
-                          break;
-                      default:
-                          pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
-                                  10, 10, 20, 20, 20, 20, 20);
-                          break;
-                  }
-                  user.addNewCharacter(pc);
-                  Toast.makeText(getContext(), "Character Created!", Toast.LENGTH_SHORT).show();
-              }
-        });
-        //updatePage();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

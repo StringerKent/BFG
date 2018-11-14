@@ -1,10 +1,14 @@
 package com.example.kentstringer.bfg;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +35,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-public class FragmentCircut extends Fragment implements SensorEventListener {
+public class FragmentCircut extends Fragment implements SensorEventListener, LocationListener {
     private SensorManager mSensorManager;
     private Sensor mSensor;
     private Sensor gSensor;
@@ -44,7 +48,9 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
     private float[] mGeomagnetic;
     private float[] mGravity;
     private double time = 0;
-    private String[] exercises = {"Squats", "Lunges", "Burpees", "Shadow Boxing"};
+    private String[] fighterExercises = {"Squats", "Lunges", "Burpees", "Shadow Boxing"};
+    private String[] scoutExercises = {"Squats", "Lunges", "Burpees", "Sprints"};
+    private String[] rangerExercises = {"Squats", "Lunges", "Burpees", "Shadow Boxing", "Sprints"};
     private Handler handler = new Handler();
     private Handler imageChanger = new Handler();
     private User user;
@@ -54,7 +60,10 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
     private boolean singleBattle = false;
     SharedPreferences sharedpreferences;
     private boolean isStanding = false;
+    private boolean notSprint = true;
     private MediaPlayer mp = null;
+    LocationManager locationManager;
+    private Location startLocation;
 
     @Nullable
     @Override
@@ -85,15 +94,12 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                         b.setText("Retreat");
                     }
                     pc = user.getActivePlayerCharacter();
-                    String exercise = getExercise();
-                    button.setText(exercise);
-                    exerciseType = exercise;
+                    changeExercise();
                     isActive = !isActive;
                     time = System.currentTimeMillis();
                     Runnable runnable = new Runnable() {
                         @Override
                         public void run() {
-                            /* do what you need to do */
                             if(isActive) {
                                 changeExercise();
                                 handler.postDelayed(this, 60000);
@@ -115,6 +121,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     imageChanger.postDelayed(imageChang, 500);
 
                     monster = new Monster(pc.getLevel());
+                    monster.setCounterAttackPwr(1);
 
                     ProgressBar pb = getActivity().findViewById(R.id.healthBar);
                     pb.setProgress(100);
@@ -135,7 +142,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
                     isActive = !isActive;
                     if(singleBattle){
                         View v = ((MainActivity)getActivity()).getViewPager(1);
-                        TextView t = v.findViewById(R.id.characterName);
+                        TextView t = v.findViewById(R.id.nameSelect);
                         t.setText("Welcome to the Arena");
                         Button b = getActivity().findViewById(R.id.retreatButton);
                         b.setText("End Training");
@@ -188,7 +195,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
             pc.setHp(pc.getMaxHp());
             singleBattle = false;
             isActive = !isActive;
-            TextView t = getView().findViewById(R.id.characterName);
+            TextView t = getView().findViewById(R.id.nameSelect);
             Button s = getView().findViewById(R.id.retreatButton);
             Button b = getView().findViewById(R.id.beginWorkOut);
             s.setText("End Training");
@@ -204,6 +211,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
         ll.addView(tv,0);
     }
 
+    @SuppressLint("MissingPermission")
     private void changeExercise() {
         String exer = getExercise();
         while(exer.equals(exerciseType)){
@@ -214,11 +222,27 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
         exerciseType = exer;
         Button button = getView().findViewById(R.id.beginWorkOut);
         button.setText(exer);
+        if (exer.equals("Sprints")){
+            button.setText(exer + "-40 meter dash");
+            notSprint = false;
+            locationManager = (LocationManager)getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, this);
+
+            Location l = new Location(LocationManager.GPS_PROVIDER);
+            l.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+            l.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+            startLocation = l;
+        }
     }
 
     private String getExercise() {
-
-        return exercises[randy.nextInt(exercises.length)];
+        if (pc.getWorkoutClass().equals("Fighter")){
+            return fighterExercises[randy.nextInt(fighterExercises.length)];
+        }else if(pc.getWorkoutClass().equals("Scout")){
+            return scoutExercises[randy.nextInt(scoutExercises.length)];
+        }else{
+            return rangerExercises[randy.nextInt(rangerExercises.length)];
+        }
     }
 
     private int makeAttack(int pwr, boolean monsterAttack){
@@ -248,104 +272,104 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
     int newCount = 0;
     @Override
     public void onSensorChanged(SensorEvent event) {
-        try {
-            if (isActive && newCount++ % 3 == 0) {
-                newCount = 0;
-                double newTime = System.currentTimeMillis();
-                int monsterTimer = exerciseType.equals("Burpees") ? 4000 : 3000;
-                if (newTime - time >= monsterTimer) {
-                    monsterAttack();
-                    time = newTime;
-                } else {
-                    switch (event.sensor.getType()) {
-                        case Sensor.TYPE_LINEAR_ACCELERATION:
+        double newTime = System.currentTimeMillis();
+            try {
+                if (isActive && newCount++ % 3 == 0 && notSprint) {
+                    newCount = 0;
 
-                            float x = event.values[1];
-                            float y = event.values[1];
-                            float z = event.values[1];
+                    int monsterTimer = exerciseType.equals("Burpees") ? 4000 : 3000;
+                    if (newTime - time >= monsterTimer) {
+                        monsterAttack();
+                        time = newTime;
+                    } else {
+                        switch (event.sensor.getType()) {
+                            case Sensor.TYPE_LINEAR_ACCELERATION:
 
-                            if (exerciseType.equals("Squats")) {
-                                if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                    makeAttack(pc.getSquatPwr(), false);
-                                    pc.setSquatsComplete(pc.getSquatsComplete() + 1);
-                                    halfSquat = false;
-                                    time = System.currentTimeMillis();
+                                float x = event.values[1];
+                                float y = event.values[1];
+                                float z = event.values[1];
+
+                                if (exerciseType.equals("Squats")) {
+                                    if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                                        makeAttack(pc.getSquatPwr(), false);
+                                        pc.setSquatsComplete(pc.getSquatsComplete() + 1);
+                                        halfSquat = false;
+                                        time = System.currentTimeMillis();
+                                    }
+                                    if (y < -2 && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                                        halfSquat = true;
+                                    }
+                                } else if (exerciseType.equals("Lunges")) {
+                                    if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                                        makeAttack(pc.getLungePwr(), false);
+                                        pc.setLungesComplete(pc.getLungesComplete() + 1);
+                                        halfSquat = false;
+                                        time = System.currentTimeMillis();
+                                    }
+                                    if (y < -1 && lastKnownDirection > 1 && ((lastKnownPitch > -130 && lastKnownPitch < -50))) {
+                                        halfSquat = true;
+                                    }
+                                } else if (exerciseType.equals("Shadow Boxing")) {
+                                    if (x < -2) {
+                                        makeAttack(pc.getShadowBoxingPwr(), false);
+                                        pc.setShadowboxingComplete(pc.getShadowboxingComplete() + 1);
+                                        halfSquat = false;
+                                        time = System.currentTimeMillis();
+                                    }
+                                    if (x > 3) {
+                                        halfSquat = true;
+                                    }
+                                } else if (exerciseType.equals("Burpees")) {
+                                    if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
+                                        makeAttack(pc.getBurpeePwr(), false);
+                                        pc.setBurpeesComplete(pc.getBurpeesComplete() + 1);
+                                        halfSquat = false;
+                                        time = System.currentTimeMillis();
+                                    }
+                                    if (((lastKnownPitch < 10 && lastKnownPitch > -10))) {
+                                        halfSquat = true;
+                                    }
                                 }
-                                if (y < -2 && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                    halfSquat = true;
-                                }
-                            } else if (exerciseType.equals("Lunges")) {
-                                if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                    makeAttack(pc.getLungePwr(), false);
-                                    pc.setLungesComplete(pc.getLungesComplete() + 1);
-                                    halfSquat = false;
-                                    time = System.currentTimeMillis();
-                                }
-                                if (y < -1 && lastKnownDirection > 1 && ((lastKnownPitch > -130 && lastKnownPitch < -50))) {
-                                    halfSquat = true;
-                                }
-                            } else if (exerciseType.equals("Shadow Boxing")) {
-                                if (x < -2) {
-                                    makeAttack(pc.getShadowBoxingPwr(), false);
-                                    pc.setShadowboxingComplete(pc.getShadowboxingComplete() + 1);
-                                    halfSquat = false;
-                                    time = System.currentTimeMillis();
-                                }
-                                if (x > 3) {
-                                    halfSquat = true;
-                                }
-                            } else if (exerciseType.equals("Burpees")) {
-                                if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                    makeAttack(pc.getBurpeePwr(), false);
-                                    pc.setBurpeesComplete(pc.getBurpeesComplete() + 1);
-                                    halfSquat = false;
-                                    time = System.currentTimeMillis();
-                                }
-                                if (((lastKnownPitch < 10 && lastKnownPitch > -10))) {
-                                    halfSquat = true;
-                                }
+                                break;
+                            case Sensor.TYPE_MAGNETIC_FIELD:
+                                mGeomagnetic = event.values;
+
+                                break;
+                            case Sensor.TYPE_ACCELEROMETER:
+                                mGravity = event.values;
+                                lastKnownDirection = event.values[2];
+                                break;
+                        }
+                        if (mGravity != null && mGeomagnetic != null) {
+                            float Ri[] = new float[9];
+                            float I[] = new float[9];
+
+                            boolean success = SensorManager.getRotationMatrix(Ri, I, mGravity, mGeomagnetic);
+                            if (success) {
+                                float orientation[] = new float[3];
+                                SensorManager.getOrientation(Ri, orientation);
+                                float azimut = orientation[0];
+                                DecimalFormat df = new DecimalFormat("#.##");
+                                double pitch = orientation[1];
+                                pitch = Math.toDegrees(pitch);
+                                pitch = Double.parseDouble(df.format(pitch));
+                                float roll = orientation[2];
+
+                                lastKnownPitch = pitch;
                             }
-                            break;
-                        case Sensor.TYPE_MAGNETIC_FIELD:
-                            mGeomagnetic = event.values;
-
-                            break;
-                        case Sensor.TYPE_ACCELEROMETER:
-                            mGravity = event.values;
-                            lastKnownDirection = event.values[2];
-                            break;
-                    }
-                    if (mGravity != null && mGeomagnetic != null) {
-                        float Ri[] = new float[9];
-                        float I[] = new float[9];
-
-                        boolean success = SensorManager.getRotationMatrix(Ri, I, mGravity, mGeomagnetic);
-                        if (success) {
-                            float orientation[] = new float[3];
-                            SensorManager.getOrientation(Ri, orientation);
-                            float azimut = orientation[0];
-                            DecimalFormat df = new DecimalFormat("#.##");
-                            double pitch = orientation[1];
-                            pitch = Math.toDegrees(pitch);
-                            pitch = Double.parseDouble(df.format(pitch));
-                            float roll = orientation[2];
-
-                            lastKnownPitch = pitch;
                         }
                     }
+                    if (isActive) {
+                        statusUpdate();
+                        ProgressBar pb = getActivity().findViewById(R.id.healthBar);
+                        pb.setProgress(monster.getPercentageLife());
+                        ProgressBar cb = getActivity().findViewById(R.id.characterHealth);
+                        cb.setProgress(pc.getPercentageLife());
+                    }
                 }
-                if (isActive) {
-                    statusUpdate();
-                    ProgressBar pb = getActivity().findViewById(R.id.healthBar);
-                    pb.setProgress(monster.getPercentageLife());
-                    ProgressBar cb = getActivity().findViewById(R.id.characterHealth);
-                    cb.setProgress(pc.getPercentageLife());
-                }
+            } catch (NullPointerException npe) {
+
             }
-        }catch(NullPointerException npe){
-
-        }
-
     }
 
     private void statusUpdate(){
@@ -373,7 +397,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
             if (singleBattle) {
                 singleBattle = false;
                 isActive = !isActive;
-                TextView t = getView().findViewById(R.id.characterName);
+                TextView t = getView().findViewById(R.id.nameSelect);
                 Button s = getView().findViewById(R.id.retreatButton);
                 Button b = getView().findViewById(R.id.beginWorkOut);
                 s.setText("End Training");
@@ -388,12 +412,50 @@ public class FragmentCircut extends Fragment implements SensorEventListener {
             } else {
                 monster = new Monster();
                 monster.setLevel(pc.getLevel());
+                monster.setCounterAttackPwr(1);
             }
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        try{
+            if (!notSprint){
+                double newTime = System.currentTimeMillis();
+                if(startLocation.distanceTo(location) > 40){
+                    makeAttack(pc.getShadowBoxingPwr(), false);
+                    pc.setSprintsComplete(pc.getSprintsComplete() + 1);
+                    time = System.currentTimeMillis();
+                }else{
+                    int monsterTimer = 10000;
+                    if (newTime - time >= monsterTimer) {
+                        monsterAttack();
+                        time = newTime;
+                    }
+                }
+            }
+        }catch(NullPointerException npe){
+
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 }

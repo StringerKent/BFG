@@ -9,14 +9,14 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/characterName"
+        android:id="@+id/charName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
         android:text="Character Sheet"
-        android:textSize="25sp"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/characterClass"
@@ -298,7 +298,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/squatChance"
-        android:layout_alignTop="@+id/characterName"
+        android:layout_alignTop="@+id/nameSelect"
         android:layout_marginStart="-317dp"
         android:layout_marginTop="637dp"
         android:background="@color/common_google_signin_btn_text_dark_focused"

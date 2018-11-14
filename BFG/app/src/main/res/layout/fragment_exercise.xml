@@ -9,7 +9,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/characterName"
+        android:id="@+id/nameSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -78,7 +78,7 @@
         android:id="@+id/squatsCounter"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_below="@+id/characterName"
+        android:layout_below="@+id/nameSelect"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

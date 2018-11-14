@@ -44,6 +44,7 @@ public class SecondActivity extends AppCompatActivity {
             f.setArguments(bundle);
             adapter.addFragment(f, "PlayerCharacter Sheet");
         }
+        adapter.addFragment(new CharacterCreationActivity(), "creation");
         viewPager.setAdapter(adapter);
     }
 
