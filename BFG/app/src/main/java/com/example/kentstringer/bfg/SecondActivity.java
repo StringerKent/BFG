@@ -21,6 +21,7 @@ public class SecondActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     public User user;
     SharedPreferences sharedpreferences;
+    public int currentIndex= 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -50,6 +51,11 @@ public class SecondActivity extends AppCompatActivity {
 
     public void setViewPager(int i){
         mViewPager.setCurrentItem(i);
+        currentIndex = i;
+    }
+
+    public int getViewPagerIndex(){
+        return mViewPager.getCurrentItem();
     }
 
     @Override

@@ -43,6 +43,25 @@ public class FragmentCharacterSheet extends Fragment {
         };
         handler.postDelayed(runnable, 100);
         user = ((SecondActivity)getActivity()).user;
+
+        Button charLeft = view.findViewById(R.id.charLeft);
+        charLeft.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((SecondActivity)getActivity()).setViewPager(((SecondActivity)getActivity()).getViewPagerIndex()-1);
+            }
+        });
+
+        Button charRight = view.findViewById(R.id.charRight);
+        charRight.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((SecondActivity)getActivity()).setViewPager(((SecondActivity)getActivity()).getViewPagerIndex()+1);
+            }
+        });
+
         Button btnNavSecondActivity = view.findViewById(R.id.activeButton);
 
         btnNavSecondActivity.setOnClickListener(new View.OnClickListener(){

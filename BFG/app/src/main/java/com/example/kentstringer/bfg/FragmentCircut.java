@@ -79,6 +79,15 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
         mSensorManager.registerListener(this, gSensor, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, aSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        Button moveButton = view.findViewById(R.id.arenaMoveButton);
+        moveButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).changeViewPager(1);
+            }
+        });
+
         Button b = view.findViewById(R.id.beginWorkOut);
         b.setOnClickListener(new View.OnClickListener() {
 
@@ -121,7 +130,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                     imageChanger.postDelayed(imageChang, 500);
 
                     monster = new Monster(pc.getLevel());
-                    monster.setCounterAttackPwr(1);
+                    monster.setCounterAttackPwr(pc.getLevel());
 
                     ProgressBar pb = getActivity().findViewById(R.id.healthBar);
                     pb.setProgress(100);
@@ -189,6 +198,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
         mp.start();
         int monsterDmg = makeAttack(monster.getCounterAttackPwr(), true);
         tv.setText("Monster attacked you dealing " + monsterDmg + " damage!");
+        tv.setTextSize(20);
         pc.takeDmg(monsterDmg);
         if (pc.getHp() <= 0){
             Toast.makeText(getContext(), "YOU FEIGNTED!", Toast.LENGTH_LONG).show();
@@ -232,6 +242,8 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
             l.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
             l.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
             startLocation = l;
+        }else{
+            notSprint = true;
         }
     }
 
@@ -262,6 +274,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
             mp.start();
             TextView tv = new TextView(getContext());
             tv.setText("Successful attack! You dealt " + attackVal + " damage!");
+            tv.setTextSize(20);
             monster.takeDmg(attackVal);
             LinearLayout ll = getActivity().findViewById(R.id.display);
             ll.addView(tv, 0);
@@ -378,9 +391,11 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
             mp.start();
             TextView tv = new TextView(getContext());
             tv.setText("The monster has been slain. You earn " + monster.getExperience() + "XP.");
+            tv.setTextSize(20);
             LinearLayout ll = getActivity().findViewById(R.id.display);
             ll.addView(tv, 0);
             int pcLevel = pc.getLevel();
+            int userLevel = user.getLevel();
             pc.killMonster(monster.getExperience());
             user.receiveXP(monster.getExperience());
             if (pcLevel < pc.getLevel()) {
@@ -388,11 +403,21 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                 mp.start();
                 TextView levelUp = new TextView(getContext());
                 levelUp.setText("YOU LEVELED UP TO LEVEL " + pc.getLevel() + "!");
+                levelUp.setTextSize(20);
                 ll.addView(levelUp,0);
             }else{
                 TextView levelUp = new TextView(getContext());
                 levelUp.setText("Current XP " + pc.getExperience() + "/" + pc.getExperienceNeeded());
+                levelUp.setTextSize(20);
                 ll.addView(levelUp, 0);
+            }
+            if(userLevel < user.getLevel()){
+                mp = MediaPlayer.create(getContext(), R.raw.levelup);
+                mp.start();
+                TextView levelUp = new TextView(getContext());
+                levelUp.setText("YOUR USER LEVELED UP TO LEVEL " + pc.getLevel() + "!");
+                levelUp.setTextSize(20);
+                ll.addView(levelUp,0);
             }
             if (singleBattle) {
                 singleBattle = false;
@@ -412,7 +437,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
             } else {
                 monster = new Monster();
                 monster.setLevel(pc.getLevel());
-                monster.setCounterAttackPwr(1);
+                monster.setCounterAttackPwr(pc.getLevel());
             }
         }
     }

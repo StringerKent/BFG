@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity{
         adapter.addFragment(new FragmentCircut(), "Train");
         adapter.addFragment(new FragmentMap(), "Map");
         adapter.addFragment(new FragmentProfile(), "Profile");
-        //adapter.addFragment(new FragmentExercise(), "Demo Exercise");
         viewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(1);
     }

@@ -35,13 +35,27 @@ public class StatsFragment extends Fragment {
       private int avgShadowBoxingPwr;
       private int avgSprintPwr;
       private Handler handler = new Handler();
-    SharedPreferences sharedpreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
         user = ((SecondActivity)getActivity()).user;
 
+        Runnable runnable2 = new Runnable() {
+            @Override
+            public void run() {
+                Button rightMove = getView().findViewById(R.id.statsRight);
+                rightMove.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        ((SecondActivity)getActivity()).setViewPager(1);
+                    }
+                });
+            }
+        };
+
+        handler.postDelayed(runnable2, 100);
 
         int totalLevel = 0;
         int totalSquatPwr= 0;
@@ -49,6 +63,12 @@ public class StatsFragment extends Fragment {
         int totalBurpeePwr = 0;
         int totalShadowBoxingPwr = 0;
         int totalSprintPwr = 0;
+
+        allSquats = 0;
+        allLunges = 0;
+        allBurpees = 0;
+        allShadowBoxing = 0;
+        allSprints = 0;
 
         for (PlayerCharacter pc : user.getPlayerCharacters()) {
             allSquats += pc.getSquatsComplete();
@@ -99,25 +119,25 @@ public class StatsFragment extends Fragment {
             tSprint.setText("Total sprints: \n" + allSprints);
 
             TextView aSquat = getView().findViewById(R.id.avgSquatPwr);
-            aSquat.setText("Average squat power: \n" + avgSquatPwr);
+            aSquat.setText("Avg squat power: \n" + avgSquatPwr);
 
             TextView aLunge = getView().findViewById(R.id.avgLungePwr);
-            aLunge.setText("Average lunge power: \n" + avgLungePwr);
+            aLunge.setText("Avg lunge power: \n" + avgLungePwr);
 
             TextView aBurpee = getView().findViewById(R.id.avgBurpeePwr);
-            aBurpee.setText("Average burpee power: \n" + avgBurpeePwr);
+            aBurpee.setText("Avg burpee power: \n" + avgBurpeePwr);
 
             TextView aShadow = getView().findViewById(R.id.avgShadowPwr);
-            aShadow.setText("Average shadow boxing power: \n" + avgShadowBoxingPwr);
+            aShadow.setText("Avg shadow boxing power: \n" + avgShadowBoxingPwr);
 
             TextView aSprint = getView().findViewById(R.id.avgSprintPwr);
-            aSprint.setText("Average sprint power: \n" + avgSprintPwr);
+            aSprint.setText("Avg sprint power: \n" + avgSprintPwr);
 
             TextView aLevel = getView().findViewById(R.id.avgLevel);
-            aLevel.setText("Average level: \n" + avgLevel);
+            aLevel.setText("Avg level: " + avgLevel);
 
             TextView charNum = getView().findViewById(R.id.characterNum);
-            charNum.setText("Characters: \n" + user.getPlayerCharacters().size());
+            charNum.setText("Characters: " + user.getPlayerCharacters().size());
         }catch (NullPointerException npe){
 
         }

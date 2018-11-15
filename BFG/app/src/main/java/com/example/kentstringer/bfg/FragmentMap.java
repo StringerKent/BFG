@@ -41,7 +41,6 @@ import java.util.TimerTask;
 
 public class FragmentMap extends Fragment implements LocationListener {
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
-    private static final String TAG = "FragmentProfile";
     private MapView mMapView;
     private GoogleMap googleMap;
     LocationManager locationManager;
@@ -87,10 +86,28 @@ public class FragmentMap extends Fragment implements LocationListener {
             }
             googleMap = mMap;
             googleMap.setMyLocationEnabled(true);
-            //LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).getLongitude());
-            //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-            //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+            }
+        });
+
+        TextView tv = view.findViewById(R.id.nameSelect);
+        tv.setText("Welcome " + user.getName());
+
+        Button moveProfileButton = view.findViewById(R.id.mapProfileButton);
+        moveProfileButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).changeViewPager(2);
+            }
+        });
+
+        Button moveArenaButton = view.findViewById(R.id.mapArenaButton);
+        moveArenaButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).changeViewPager(0);
             }
         });
 
@@ -128,15 +145,6 @@ public class FragmentMap extends Fragment implements LocationListener {
         });
 
 
-        myTimer = new Timer();
-        myTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                TimerMethod();
-            }
-
-        }, 0, 1000);
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -147,7 +155,30 @@ public class FragmentMap extends Fragment implements LocationListener {
 
             }
         };
+        Runnable runnableTime = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (onRun) {
+                        noMovementCount++;
+                        double time = System.currentTimeMillis() - runStartTime;
+                        TextView runView = getView().findViewById(R.id.runTime2);
+                        int hours = (int) (((time / 1000) / 60) / 60);
+                        int minutes = (int) (((time / 1000) / 60));
+                        int seconds = (int) ((time / 1000)%60);
+                        runView.setText("Time: " + hours + ":" + minutes + ":" + seconds );
+                        if (noMovementCount == 3){
+                            getLocation();
+                        }
+                    }
+                }catch (NullPointerException npe){
+
+                }
+                myHandler.postDelayed(this, 1000);
+            }
+        };
         myHandler.postDelayed(runnable, 500);
+        myHandler.postDelayed(runnableTime, 1000);
 
         return view;
 
@@ -163,7 +194,7 @@ public class FragmentMap extends Fragment implements LocationListener {
                 int hours = (int) (((time / 1000) / 60) / 60);
                 int minutes = (int) (((time / 1000) / 60));
                 int seconds = (int) ((time / 1000)%60);
-                runView.setText("" + hours + ":" + minutes + ":" + seconds );
+                runView.setText("Time: " + hours + ":" + minutes + ":" + seconds );
                 if (noMovementCount == 3){
                     getLocation();
                 }
@@ -211,11 +242,11 @@ public class FragmentMap extends Fragment implements LocationListener {
             double subMile = (runTotalDistance%5280)/5280;
             DecimalFormat df = new DecimalFormat(".##");
             String subMileFormatted = df.format(subMile);
-            distanceView.setText(miles+ "" + subMileFormatted);
+            distanceView.setText("Distance: " + miles + "" + subMileFormatted);
             int hours = (int)(((time/1000)/60)/60);
             int minutes = (int)(((time/1000)/60));
             int seconds = (int)((time/1000)%60);
-            runView.setText("" + hours + ":" + minutes + ":" + seconds );
+            runView.setText("Time: " + hours + ":" + minutes + ":" + seconds );
             Random randy = new Random();
             Switch s = getView().findViewById(R.id.troubleSwitch);
 

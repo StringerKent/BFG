@@ -8,96 +8,98 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/totalSquat"
-        android:layout_width="146dp"
+    <Button
+        android:id="@+id/statsRight"
+        android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="79dp"
+        android:layout_marginStart="339dp"
+        android:layout_marginTop="580dp"
+        android:background="@android:color/transparent"
+        android:text="swipe--" />
+
+    <TextView
+        android:id="@+id/totalSquat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="100dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/totalLunge"
-        android:layout_width="147dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="122dp"
+        android:layout_alignStart="@+id/totalSquat"
+        android:layout_marginTop="150dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/totalBurpee"
-        android:layout_width="147dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="167dp"
+        android:layout_marginTop="200dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/totalShadow"
-        android:layout_width="146dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="250dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="110dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="107dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         android:text="Total Stats"
-        android:textSize="30sp"
+        android:textSize="25dp"
         android:textColor="@color/common_google_signin_btn_text_dark_focused" />
 
     <TextView
         android:id="@+id/totalSprints"
-        android:layout_width="143dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="300dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgSquatPwr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="198dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="100dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgLungePwr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="198dp"
-        android:layout_marginTop="121dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="150dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgBurpeePwr"
@@ -105,52 +107,51 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="200dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgShadowPwr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="199dp"
-        android:layout_marginTop="221dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="250dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgSprintPwr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/totalSquat"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="276dp"
-        android:layout_marginBottom="399dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="300dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/characterNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="156dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 
     <TextView
         android:id="@+id/avgLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/characterNum"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="278dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="15dp"/>
 </RelativeLayout>

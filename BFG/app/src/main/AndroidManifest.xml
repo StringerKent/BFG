@@ -30,7 +30,6 @@
             android:required="false" />
 
         <activity android:name=".UserCreationActivity" />
-        <activity android:name=".CharacterCreationActivity" />
         <activity android:name=".SplashScreenActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

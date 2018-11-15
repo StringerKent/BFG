@@ -9,6 +9,17 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <Button
+        android:id="@+id/profileMove"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="580dp"
+        android:background="@android:color/transparent"
+        android:text="--Swipe" />
+
     <TextView
         android:id="@+id/nameSelect"
         android:layout_width="wrap_content"
@@ -21,155 +32,133 @@
 
     <Button
         android:id="@+id/btnNavSecondActivity"
-        android:layout_width="185dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/nameSelect"
-        android:layout_alignEnd="@+id/xpInput"
-        android:layout_marginTop="590dp"
-        android:layout_marginEnd="-25dp"
+        android:layout_marginTop="630dp"
         android:background="@color/common_google_signin_btn_text_dark_focused"
         android:text="Characters"
         android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/nameView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="99dp"
-        android:layout_marginEnd="-10dp"
-        android:layout_toStartOf="@+id/btnNavSecondActivity"
-        android:text="Name: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/nameInput"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/nameView"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="2dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/levelView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="149dp"
-        android:text="Level: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/levelInput"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameInput"
-        android:layout_alignTop="@+id/levelView"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/runView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="291dp"
-        android:text="Total Distance Run: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/runInput"
-        android:layout_width="117dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/runView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="65dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/killsInput"
-        android:layout_width="116dp"
-        android:layout_height="29dp"
-        android:layout_alignTop="@+id/runView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="62dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/killsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="354dp"
-        android:text="Total Monsters Killed"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/xpView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="190dp"
-        android:text="Current Experience: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/xpInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/runInput"
-        android:layout_alignTop="@+id/xpView"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/xpNeededView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="241dp"
-        android:text="Next Level: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
-        android:id="@+id/xpNeededInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/runInput"
-        android:layout_alignTop="@+id/xpNeededView"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
-
-    <TextView
         android:id="@+id/activeView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/nameView"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="53dp"
-        android:text="Active Character"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="110dp"
+        android:text="Active Character: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/activeInput"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/runInput"
-        android:layout_alignTop="@+id/activeView"
+        android:layout_height="40dp"
+        android:layout_marginTop="110dp"
+        android:layout_toEndOf="@+id/activeView"
         android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/levelView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="180dp"
+        android:text="User Level: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/levelInput"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="180dp"
+        android:layout_toEndOf="@+id/levelView"
+        android:text="TextView"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/xpView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="250dp"
+        android:text="Current User XP: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/xpInput"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/xpView"
+        android:layout_marginTop="250dp"
+        android:text="TextView"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/xpNeededView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="320dp"
+        android:text="Next Level XP: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/xpNeededInput"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="320dp"
+        android:layout_toEndOf="@+id/xpNeededView"
+        android:text="TextView"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/runView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="390dp"
+        android:text="Total Run Distance: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/runInput"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/runView"
+        android:layout_marginTop="390dp"
+        android:text="TextView"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/killsInput"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/killsView"
+        android:layout_marginTop="460dp"
+        android:text="TextView"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/killsView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="460dp"
+        android:text="Total Monsters Killed: "
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="20dp" />
+
+
 </RelativeLayout>

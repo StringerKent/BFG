@@ -45,6 +45,15 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+        Button moveArenaButton = view.findViewById(R.id.profileMove);
+        moveArenaButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).changeViewPager(1);
+            }
+        });
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -61,8 +70,8 @@ public class FragmentProfile extends Fragment {
 
     public void updatePage() {
         try {
-            TextView nameInput = getView().findViewById(R.id.nameInput);
-            nameInput.setText(user.getName());
+            TextView nameInput = getView().findViewById(R.id.nameSelect);
+            nameInput.setText("User Profile");
 
             TextView levelInput = getView().findViewById(R.id.levelInput);
             levelInput.setText(user.getLevel() + "");

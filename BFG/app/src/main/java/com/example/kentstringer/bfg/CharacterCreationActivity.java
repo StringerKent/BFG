@@ -29,6 +29,16 @@ public class CharacterCreationActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
         View view = inflater.inflate(R.layout.activity_character_creation, container, false);
         user = ((SecondActivity)getActivity()).user;
+
+        Button creationLeft = view.findViewById(R.id.creationLeft);
+        creationLeft.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                ((SecondActivity)getActivity()).setViewPager(((SecondActivity)getActivity()).getViewPagerIndex()-1);
+            }
+        });
+
         Button button = view.findViewById(R.id.charSubmitButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
