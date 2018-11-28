@@ -1,9 +1,5 @@
 package com.example.kentstringer.bfg;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -11,15 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class StatsFragment extends Fragment {
       private User user;
@@ -39,7 +30,7 @@ public class StatsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
-        user = ((SecondActivity)getActivity()).user;
+        user = ((CharactersActivity)getActivity()).user;
 
         Runnable runnable2 = new Runnable() {
             @Override
@@ -49,7 +40,7 @@ public class StatsFragment extends Fragment {
 
                     @Override
                     public void onClick(View view) {
-                        ((SecondActivity)getActivity()).setViewPager(1);
+                        ((CharactersActivity)getActivity()).setViewPager(1);
                     }
                 });
             }
@@ -104,34 +95,34 @@ public class StatsFragment extends Fragment {
         try {
 
             TextView tSquat = getView().findViewById(R.id.totalSquat);
-            tSquat.setText("Total squats: \n" + allSquats);
+            tSquat.setText("Total squats: " + allSquats);
 
             TextView tLunge = getView().findViewById(R.id.totalLunge);
-            tLunge.setText("Total lunges: \n" + allLunges);
+            tLunge.setText("Total lunges: " + allLunges);
 
             TextView tBurpee = getView().findViewById(R.id.totalBurpee);
-            tBurpee.setText("Total burpees: \n" + allBurpees);
+            tBurpee.setText("Total burpees: " + allBurpees);
 
             TextView tShadow = getView().findViewById(R.id.totalShadow);
-            tShadow.setText("Total shadow boxings: \n" + allShadowBoxing);
+            tShadow.setText("Total shadow boxings: " + allShadowBoxing);
 
             TextView tSprint = getView().findViewById(R.id.totalSprints);
-            tSprint.setText("Total sprints: \n" + allSprints);
+            tSprint.setText("Total sprints: " + allSprints);
 
             TextView aSquat = getView().findViewById(R.id.avgSquatPwr);
-            aSquat.setText("Avg squat power: \n" + avgSquatPwr);
+            aSquat.setText("Avg squat power: " + avgSquatPwr);
 
             TextView aLunge = getView().findViewById(R.id.avgLungePwr);
-            aLunge.setText("Avg lunge power: \n" + avgLungePwr);
+            aLunge.setText("Avg lunge power: " + avgLungePwr);
 
             TextView aBurpee = getView().findViewById(R.id.avgBurpeePwr);
-            aBurpee.setText("Avg burpee power: \n" + avgBurpeePwr);
+            aBurpee.setText("Avg burpee power: " + avgBurpeePwr);
 
             TextView aShadow = getView().findViewById(R.id.avgShadowPwr);
-            aShadow.setText("Avg shadow boxing power: \n" + avgShadowBoxingPwr);
+            aShadow.setText("Avg shadow boxing power: " + avgShadowBoxingPwr);
 
             TextView aSprint = getView().findViewById(R.id.avgSprintPwr);
-            aSprint.setText("Avg sprint power: \n" + avgSprintPwr);
+            aSprint.setText("Avg sprint power: " + avgSprintPwr);
 
             TextView aLevel = getView().findViewById(R.id.avgLevel);
             aLevel.setText("Avg level: " + avgLevel);

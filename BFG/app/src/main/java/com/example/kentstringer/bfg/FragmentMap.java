@@ -36,8 +36,6 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class FragmentMap extends Fragment implements LocationListener {
     private static final int REQUEST_PERMISSION_FINE_LOCATION_RESULT = 0;
@@ -48,7 +46,6 @@ public class FragmentMap extends Fragment implements LocationListener {
     private double runStartTime;
     private double runTotalDistance;
     private boolean onRun = false;
-    private Timer myTimer;
     private int noMovementCount = 0;
     private User user;
     SharedPreferences sharedpreferences;
@@ -86,7 +83,6 @@ public class FragmentMap extends Fragment implements LocationListener {
             }
             googleMap = mMap;
             googleMap.setMyLocationEnabled(true);
-
             }
         });
 
@@ -148,10 +144,15 @@ public class FragmentMap extends Fragment implements LocationListener {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                getLocation();
-                @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                try {
+                    getLocation();
+                    @SuppressLint("MissingPermission") LatLng sydney = new LatLng(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(), locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(15).build();
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }catch(NullPointerException npe){
+                    myHandler.postDelayed(this, 1000);
+                }
+
 
             }
         };
@@ -250,7 +251,7 @@ public class FragmentMap extends Fragment implements LocationListener {
             Random randy = new Random();
             Switch s = getView().findViewById(R.id.troubleSwitch);
 
-            if(randy.nextInt(10) > 4 && s.isChecked()){
+            if(randy.nextInt(20) > 0 && s.isChecked()){
                 mp = MediaPlayer.create(getContext(), R.raw.battlestart);
                 mp.start();
                 View v = ((MainActivity)getActivity()).getViewPager(1);

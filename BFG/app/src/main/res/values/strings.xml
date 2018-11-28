@@ -7,6 +7,7 @@
         <item>Fighter</item>
         <item>Ranger</item>
         <item>Scout</item>
+        <item>Demo</item>
     </string-array>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
 </resources>

@@ -1,31 +1,14 @@
 package com.example.kentstringer.bfg;
 
-import android.Manifest;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
-import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.kentstringer.bfg.models.Monster;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -34,6 +17,9 @@ public class MainActivity extends AppCompatActivity{
     public User user;
     private PlayerCharacter pc;
     private Monster monster;
+    private Fragment map = new FragmentMap();
+    private Fragment circuit = new FragmentCircut();
+    private Fragment profile = new FragmentProfile();
 
 //    splash screen
 //    user creation
@@ -46,8 +32,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
-        user = (User)bundle.getSerializable("user");
-        setContentView(R.layout.main_activity);
+        user = (User) bundle.getSerializable("user");
+        setContentView(R.layout.activity_main);
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
@@ -55,9 +41,9 @@ public class MainActivity extends AppCompatActivity{
 
     private void setupViewPager(ViewPager viewPager){
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentCircut(), "Train");
-        adapter.addFragment(new FragmentMap(), "Map");
-        adapter.addFragment(new FragmentProfile(), "Profile");
+        adapter.addFragment(circuit, "Train");
+        adapter.addFragment(map, "Map");
+        adapter.addFragment(profile, "Profile");
         viewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(1);
     }
@@ -69,6 +55,23 @@ public class MainActivity extends AppCompatActivity{
     public View getViewPager(int index){
         return mViewPager.getChildAt(index);
     }
+
+    public void hideProfile(){
+        SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(circuit, "Train");
+        adapter.addFragment(map, "Map");
+        mViewPager.setAdapter(adapter);
+    }
+
+    public void reinstateProfile(){
+        SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(circuit, "Train");
+        adapter.addFragment(map, "Map");
+        adapter.addFragment(profile, "Profile");
+        mViewPager.setAdapter(adapter);
+
+    }
+
 
     @Override
     public void onBackPressed() {

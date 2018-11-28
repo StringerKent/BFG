@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
@@ -26,47 +27,51 @@ public class UserCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_creation);
         final Button button = findViewById(R.id.submitButton);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String userFirstName = ((TextView)findViewById(R.id.userFirstName)).getText().toString();
-                String userLastName = ((TextView)findViewById(R.id.userLastName)).getText().toString();
-                String characterName = ((TextView)findViewById(R.id.nameSelect)).getText().toString();
-                String characterClass = ((Spinner)findViewById(R.id.spinner)).getSelectedItem().toString();
-                ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
-                user = new User(userFirstName + " " + userLastName, 1, 0, playerCharacters, 0 ,0);
-                PlayerCharacter pc;
-                switch (characterClass){
-                    case "Fighter - Strength Based":
-                        pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
-                                10, 10, 25, 25, 25, 25, 0 );
-                        break;
-                    case "Ranger - Balanced Class":
-                        pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
-                                10, 10, 20, 20, 20, 20, 20 );
-                        break;
-                    default:
-                        pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
-                                10, 10, 25, 25, 25, 0, 25 );
-                        break;
+                String userFirstName = ((TextView) findViewById(R.id.userFirstName)).getText().toString();
+                String characterName = ((TextView) findViewById(R.id.nameSelect)).getText().toString();
+                if (!userFirstName.isEmpty() && !characterName.isEmpty()){
+                    String characterClass = ((Spinner) findViewById(R.id.spinner)).getSelectedItem().toString();
+                    ArrayList<PlayerCharacter> playerCharacters = new ArrayList<>();
+                    user = new User(userFirstName, 1, 0, playerCharacters, 0, 0);
+                    PlayerCharacter pc;
+                    switch (characterClass) {
+                        case "Fighter":
+                            pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
+                                    10, 10, 25, 25, 25, 25, 0);
+                            break;
+                        case "Ranger":
+                            pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
+                                    10, 10, 20, 20, 20, 20, 20);
+                            break;
+                        default:
+                            pc = new PlayerCharacter(characterClass, characterName, 10, 10, 10,
+                                    10, 10, 25, 25, 25, 0, 25);
+                            break;
+                    }
+                    user.addNewCharacter(pc);
+                    user.setActivePlayerCharacter(pc);
+                    String str = user.toJSON();
+                    try {
+                        JSONObject j = new JSONObject(str);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    sharedpreferences = getSharedPreferences("userSave", getApplicationContext().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("user", str);
+                    editor.commit();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", user);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(v.getContext(), "You must give both user and character a name", Toast.LENGTH_LONG).show();
                 }
-                user.addNewCharacter(pc);
-                user.setActivePlayerCharacter(pc);
-                String str = user.toJSON();
-                try {
-                    JSONObject j = new JSONObject(str);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                sharedpreferences = getSharedPreferences("userSave", getApplicationContext().MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("user", str);
-                editor.commit();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("user", user);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                finish();
             }
         });
     }

@@ -101,6 +101,10 @@ public class User implements Serializable {
 
     public void setTotalDistanceRun(double totalDistanceRun) {
         this.totalDistanceRun = totalDistanceRun;
+        if(totalDistanceRun > 5280){
+            int miles = (int)totalDistanceRun/5280;
+            receiveXP(miles*200);
+        }
     }
 
     public int getTotalMonsterKilled() {

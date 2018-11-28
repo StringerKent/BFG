@@ -358,6 +358,25 @@ public class PlayerCharacter implements Serializable {
 
     public void setTotalDistanceRan(double totalDistanceRan) {
         this.totalDistanceRan = totalDistanceRan;
+        if(totalDistanceRan > 5280){
+            int miles = (int)totalDistanceRan/5280;
+            increasePower(miles);
+            long experience = getExperience() + (miles*200);
+
+            if (experience >= experienceNeeded){
+                levelUp();
+            }else{
+                setExperience(experience);
+            }
+        }
+    }
+
+    private void increasePower(int miles){
+        squatPwr += miles;
+        lungePwr += miles;
+        burpeePwr += miles;
+        shadowBoxingPwr +=  miles;
+        sprintPwr += miles;
     }
 
     public long getExperience() {

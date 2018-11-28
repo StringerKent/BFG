@@ -10,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
 
 import java.text.DecimalFormat;
@@ -34,13 +31,22 @@ public class FragmentProfile extends Fragment {
         btnNavSecondActivity.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(getActivity(), SecondActivity.class);
+                Intent intent = new Intent(getActivity(), CharactersActivity.class);
                 Bundle bundle = new Bundle();
                 //Add your data from getFactualResults method to bundle
                 bundle.putSerializable("user", user);
                 //Add the bundle to the intent
                 intent.putExtras(bundle);
 
+                startActivity(intent);
+            }
+        });
+
+        Button nextButtonActivity = view.findViewById(R.id.nextButton);
+        nextButtonActivity.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), FutureActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,29 +77,29 @@ public class FragmentProfile extends Fragment {
     public void updatePage() {
         try {
             TextView nameInput = getView().findViewById(R.id.nameSelect);
-            nameInput.setText("User Profile");
+            nameInput.setText("User profile");
 
             TextView levelInput = getView().findViewById(R.id.levelInput);
-            levelInput.setText(user.getLevel() + "");
+            levelInput.setText("User level: " + user.getLevel() + "");
 
             TextView xpInput = getView().findViewById(R.id.xpInput);
-            xpInput.setText(user.getExperience() + "");
+            xpInput.setText("User XP: " + user.getExperience() + "");
 
             TextView xpNeededInput = getView().findViewById(R.id.xpNeededInput);
-            xpNeededInput.setText((user.getLevel() * 2500) + "");
+            xpNeededInput.setText("XP to next level: " + (user.getLevel() * 2500) + "");
 
             TextView runInput = getView().findViewById(R.id.runInput);
             int miles = (int)+user.getTotalDistanceRun()/5280;
             double subMile = (+user.getTotalDistanceRun()%5280)/5280;
             DecimalFormat df = new DecimalFormat(".##");
             String subMileFormatted = df.format(subMile);
-            runInput.setText(miles + "" + subMileFormatted + " Miles");
+            runInput.setText("Total distance run: " + miles + "" + subMileFormatted + " Miles");
 
             TextView killsInput = getView().findViewById(R.id.killsInput);
-            killsInput.setText(user.getTotalMonsterKilled() + "");
+            killsInput.setText("Total monsters killed: " + user.getTotalMonsterKilled() + "");
 
             TextView activeInput = getView().findViewById(R.id.activeInput);
-            activeInput.setText(user.getActivePlayerCharacter().getPcName() + "");
+            activeInput.setText("Active character: " + user.getActivePlayerCharacter().getPcName() + "");
         }catch(NullPointerException npe){
 
         }
