@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -139,17 +140,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                     };
                     handler.postDelayed(runnable, exerciseChangeTime);
 
-                    imageChang = new Runnable() {
-                        @Override
-                        public void run() {
-                            /* do what you need to do */
-                            if(isActive) {
-                                changeImage();
-                                imageChanger.postDelayed(this, 500);
-                            }
-                        }
-                    };
-                    imageChanger.postDelayed(imageChang, 500);
+                    changeImage();
 
                     monster = new Monster(pc.getLevel());
 
@@ -177,15 +168,19 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
     }
 
     private void changeImage() {
+        int[] monsterImages = {R.drawable.monsterone, R.drawable.monstertwo, R.drawable.monsterthree, R.drawable.monsterfour, R.drawable.monsterfive, R.drawable.monstersix, R.drawable.monsterseven
+        , R.drawable.monstereight, R.drawable.monsternine, R.drawable.monsterone};
+
         try {
             ImageView iv = getActivity().findViewById(R.id.monsterImage);
-            if (isStanding) {
-                iv.setImageResource(R.drawable.monsterone);
-                isStanding = false;
-            } else {
-                iv.setImageResource(R.drawable.monsterone);
-                isStanding = true;
-            }
+            iv.setImageResource(monsterImages[randy.nextInt(pc.getLevel()/2)]);
+//            if (isStanding) {
+//                iv.setImageResource(R.drawable.monsterone);
+//                isStanding = false;
+//            } else {
+//                iv.setImageResource(R.drawable.monsterone);
+//                isStanding = true;
+//            }
         }catch (NullPointerException npe){
 
         }

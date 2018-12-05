@@ -36,19 +36,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        requestLocationPermission();
 
-            } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    Toast.makeText(getApplicationContext(), "Application requires access to location", Toast.LENGTH_SHORT).show();
-                }
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
-            }
-        }
-
-        mp = MediaPlayer.create(this, R.raw.splash);
+        mp = MediaPlayer.create(this, R.raw.intro);
         mp.start();
+
+        while(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+        }
 
         final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         final Intent intentUser = new Intent(getApplicationContext(), UserCreationActivity.class);
@@ -66,7 +61,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     finish();
                 }
-            }, 2000);
+            }, 5500);
         }else{
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -75,7 +70,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     startActivity(intentUser);
                     finish();
                 }
-            }, 2000);
+            }, 5500);
         }
 
     }
@@ -137,12 +132,26 @@ public class SplashScreenActivity extends AppCompatActivity {
         }
     }
 
+    public void requestLocationPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Toast.makeText(getApplicationContext(), "Application requires access to location", Toast.LENGTH_LONG).show();
+                }
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_FINE_LOCATION_RESULT);
+            }
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_PERMISSION_FINE_LOCATION_RESULT){
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getApplicationContext(), "Application will not run without premission", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Application will not run without premission", Toast.LENGTH_LONG).show();
+                requestLocationPermission();
             }
         }
     }

@@ -41,4 +41,15 @@
         android:layout_marginEnd="113dp"
         android:layout_marginBottom="453dp"
         app:srcCompat="@drawable/monsterthree" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignParentStart="true"
+        android:text="Music: https://www.bensound.com"
+        android:textColor="@color/common_action_bar_splitter"
+        android:textSize="8sp"
+        android:textStyle="italic" />
 </RelativeLayout>

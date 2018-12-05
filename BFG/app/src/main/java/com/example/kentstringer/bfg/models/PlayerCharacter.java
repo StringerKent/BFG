@@ -323,8 +323,12 @@ public class PlayerCharacter implements Serializable {
     }
 
     public void levelUp(){
-        int level = getLevel();
-        setLevel(++level);
+        if (getLevel() < 20){
+            int level = getLevel();
+            setLevel(++level);
+        }else{
+            increasePower(10);
+        }
         setExperience(0);
     }
 

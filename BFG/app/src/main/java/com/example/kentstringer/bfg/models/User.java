@@ -88,6 +88,7 @@ public class User implements Serializable {
         this.experience = experience;
         if (getExperience() >= 2500*getLevel()){
             setLevel(getLevel()+1);
+            setExperience(0);
         }
     }
 
