@@ -15,17 +15,10 @@ public class MainActivity extends AppCompatActivity{
 
     private ViewPager mViewPager;
     public User user;
-    private PlayerCharacter pc;
-    private Monster monster;
     private Fragment map = new FragmentMap();
     private Fragment circuit = new FragmentCircut();
     private Fragment profile = new FragmentProfile();
-
-//    splash screen
-//    user creation
-//    character creation
-//    auto save/load(half done)
-//    fine tune exercises
+    public boolean encountered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +62,9 @@ public class MainActivity extends AppCompatActivity{
         adapter.addFragment(map, "Map");
         adapter.addFragment(profile, "Profile");
         mViewPager.setAdapter(adapter);
-
     }
+
+
 
 
     @Override

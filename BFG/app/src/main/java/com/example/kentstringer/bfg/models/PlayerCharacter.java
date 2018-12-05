@@ -358,6 +358,11 @@ public class PlayerCharacter implements Serializable {
 
     public void setTotalDistanceRan(double totalDistanceRan) {
         this.totalDistanceRan = totalDistanceRan;
+
+    }
+
+    public void endRun(double totalDistanceRan) {
+        this.totalDistanceRan += totalDistanceRan;
         if(totalDistanceRan > 5280){
             int miles = (int)totalDistanceRan/5280;
             increasePower(miles);
@@ -391,5 +396,7 @@ public class PlayerCharacter implements Serializable {
         double percent = ((double)getHp()/(double)getMaxHp())*100;
         return (int)percent;
     }
+
+
 
 }

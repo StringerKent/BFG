@@ -124,13 +124,13 @@ public class FragmentMap extends Fragment implements LocationListener {
                     runStartTime = System.currentTimeMillis();
                     runTotalDistance = 0;
                 }else{
-                    user.getActivePlayerCharacter().setTotalDistanceRan(user.getActivePlayerCharacter().getTotalDistanceRan() + runTotalDistance);
-                    String str = user.toJSON();
-                    try {
-                        JSONObject j = new JSONObject(str);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    user.endRun(runTotalDistance);
+                    int miles = 0;
+                    if(runTotalDistance >= 5280){
+                        miles = (int)runTotalDistance/5280;
                     }
+                    Toast.makeText(getContext(), "You ran " + miles + " miles earning " + (miles*200) + " bonus experience and " + miles + " bonus power", Toast.LENGTH_LONG).show();
+                    String str = user.toJSON();
                     sharedpreferences = getContext().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("user", str);
@@ -185,26 +185,6 @@ public class FragmentMap extends Fragment implements LocationListener {
 
     }
 
-    private void TimerMethod()
-    {
-        try {
-            if (onRun) {
-                noMovementCount++;
-                double time = System.currentTimeMillis() - runStartTime;
-                TextView runView = getView().findViewById(R.id.runTime2);
-                int hours = (int) (((time / 1000) / 60) / 60);
-                int minutes = (int) (((time / 1000) / 60));
-                int seconds = (int) ((time / 1000)%60);
-                runView.setText("Time: " + hours + ":" + minutes + ":" + seconds );
-                if (noMovementCount == 3){
-                    getLocation();
-                }
-            }
-        }catch (NullPointerException npe){
-
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -251,18 +231,26 @@ public class FragmentMap extends Fragment implements LocationListener {
             Random randy = new Random();
             Switch s = getView().findViewById(R.id.troubleSwitch);
 
-            if(randy.nextInt(20) > 0 && s.isChecked()){
+            if(randy.nextInt(20) > 5 && s.isChecked() && !((MainActivity)getActivity()).encountered){
+                ((MainActivity)getActivity()).encountered = true;
+                s.setChecked(false);
                 mp = MediaPlayer.create(getContext(), R.raw.battlestart);
                 mp.start();
                 View v = ((MainActivity)getActivity()).getViewPager(1);
                 TextView tv = v.findViewById(R.id.nameSelect);
                 Button b = v.findViewById(R.id.beginWorkOut);
+                if(b == null){
+                    View v2 = ((MainActivity)getActivity()).getViewPager(0);
+                    tv = v2.findViewById(R.id.nameSelect);
+                    b = v2.findViewById(R.id.beginWorkOut);
+                }
                 if (!tv.getText().equals("Encounter!")) {
                     tv.setText("Encounter!");
                     b.setText("Ready!");
                     ((MainActivity) getActivity()).changeViewPager(0);
                     Toast.makeText(getContext(), "Monster Found", Toast.LENGTH_LONG).show();
                 }
+
             }
         }
 

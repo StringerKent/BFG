@@ -25,6 +25,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kentstringer.bfg.Exercises.Burpee;
+import com.example.kentstringer.bfg.Exercises.Exercise;
+import com.example.kentstringer.bfg.Exercises.Lunge;
+import com.example.kentstringer.bfg.Exercises.ShadowBox;
+import com.example.kentstringer.bfg.Exercises.Squat;
 import com.example.kentstringer.bfg.models.Monster;
 import com.example.kentstringer.bfg.models.PlayerCharacter;
 import com.example.kentstringer.bfg.models.User;
@@ -70,6 +75,13 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
     private int monstersKilled = 0;
     private int bonusXP = 200;
 
+    private Exercise squat = new Squat(2, -2, -70, -110, 3000, 0, "Squats");
+    private Exercise lunge = new Lunge(2, -1, -50, -130, 3000, 2, "Lunges");
+    private Exercise burpee = new Burpee(-70, -110, 10, -10, 4000, 0, "Burpees");
+    private Exercise shadowbox = new ShadowBox(3, -2, 0, 0, 3000, 0, "Shadow Boxing");
+
+    private Exercise activeExercise = new Exercise();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,9 +118,10 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                     ImageView iv = getActivity().findViewById(R.id.monsterImage);
                     iv.setImageResource(R.drawable.monsterone);
                     Button button = view.findViewById(R.id.beginWorkOut);
+                    Button b = getActivity().findViewById(R.id.retreatButton);
+                    b.setVisibility(View.VISIBLE);
                     if (button.getText().equals("Ready!")){
                         singleBattle = true;
-                        Button b = getActivity().findViewById(R.id.retreatButton);
                         b.setText("Retreat");
                     }
                     pc = user.getActivePlayerCharacter();
@@ -150,47 +163,13 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
         });
 
         Button s = view.findViewById(R.id.retreatButton);
+        s.setVisibility(View.INVISIBLE);
         s.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 if(isActive) {
-                    ((MainActivity)getActivity()).reinstateProfile();
-                    Button button = getActivity().findViewById(R.id.beginWorkOut);
-                    button.setText("Begin Training");
-                    isActive = !isActive;
-                    if(singleBattle){
-                        View v = ((MainActivity)getActivity()).getViewPager(1);
-                        TextView t = v.findViewById(R.id.nameSelect);
-                        t.setText("Welcome to the Arena");
-                        Button b = getActivity().findViewById(R.id.retreatButton);
-                        b.setText("End Training");
-                        singleBattle = false;
-                        ((MainActivity)getActivity()).changeViewPager(1);
-                    }else{
-                        user.receiveXP(monstersKilled * bonusXP);
-                        pc.killMonster(monstersKilled * bonusXP);
-                        pc.setMonstersKilled(pc.getMonstersKilled()-1);
-                        Toast.makeText(getContext(), "You killed " + monstersKilled + " monsters earning " + (monstersKilled * bonusXP) + " bonus xp!", Toast.LENGTH_LONG).show();
-                    }
-                    ImageView iv = getActivity().findViewById(R.id.monsterImage);
-                    iv.setImageResource(0);
-                    ProgressBar pb = getActivity().findViewById(R.id.healthBar);
-                    pb.setProgress(0);
-                    ProgressBar p = getActivity().findViewById(R.id.characterHealth);
-                    p.setProgress(0);
-                    String str = user.toJSON();
-                    handler.removeCallbacks(runnable);
-                    imageChanger.removeCallbacks(imageChang);
-                    try {
-                        JSONObject j = new JSONObject(str);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    sharedpreferences = getActivity().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("user", str);
-                    editor.commit();
+                    retreatButtonPressed();
                 }
             }
         });
@@ -211,6 +190,55 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
 
         }
     }
+
+    private void retreatButtonPressed(){
+        ((MainActivity)getActivity()).encountered = false;
+
+        Button button = getActivity().findViewById(R.id.beginWorkOut);
+        button.setText("Begin Training");
+        handler.removeCallbacks(runnable);
+        imageChanger.removeCallbacks(imageChang);
+        isActive = !isActive;
+        if (singleBattle) {
+            View v = ((MainActivity) getActivity()).getViewPager(1);
+            TextView t = v.findViewById(R.id.nameSelect);
+            t.setText("Welcome to the Arena");
+            Button b = getActivity().findViewById(R.id.retreatButton);
+            b.setText("End Training");
+            singleBattle = false;
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ((MainActivity) getActivity()).changeViewPager(1);
+                        ((MainActivity) getActivity()).reinstateProfile();
+                    }catch (NullPointerException npe){
+                        ((MainActivity) getActivity()).reinstateProfile();
+                    }
+                }
+            };
+            handler.postDelayed(runnable, 5000);
+        } else {
+            user.receiveXP(monstersKilled * bonusXP);
+            pc.killMonster(monstersKilled * bonusXP);
+            pc.setMonstersKilled(pc.getMonstersKilled() - 1);
+            ((MainActivity) getActivity()).reinstateProfile();
+            Toast.makeText(getContext(), "You killed " + monstersKilled + " monsters earning " + (monstersKilled * bonusXP) + " bonus xp!", Toast.LENGTH_LONG).show();
+        }
+        ImageView iv = getActivity().findViewById(R.id.monsterImage);
+        iv.setImageResource(0);
+        ProgressBar pb = getActivity().findViewById(R.id.healthBar);
+        pb.setProgress(0);
+        ProgressBar p = getActivity().findViewById(R.id.characterHealth);
+        p.setProgress(0);
+        String str = user.toJSON();
+
+        sharedpreferences = getActivity().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("user", str);
+        editor.commit();
+    }
+
 
 
     private void monsterAttack(){
@@ -253,7 +281,23 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
         while(exer.equals(exerciseType)){
             exer = getExercise();
         }
-        mp = MediaPlayer.create(getContext(), R.raw.beep);
+        switch (exer){
+            case "Squats":
+                activeExercise = squat;
+                break;
+            case "Lunges":
+                activeExercise = lunge;
+                break;
+            case "Burpees":
+                activeExercise = burpee;
+                break;
+            case "Shadow Boxing":
+                activeExercise = shadowbox;
+                break;
+            default:
+                break;
+        }
+        mp = MediaPlayer.create(getContext(), R.raw.changeover);
         mp.start();
         exerciseType = exer;
         Button button = getView().findViewById(R.id.beginWorkOut);
@@ -311,6 +355,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
     }
 
     int newCount = 0;
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         double newTime = System.currentTimeMillis();
@@ -318,7 +363,7 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                 if (isActive && newCount++ % 3 == 0 && notSprint) {
                     newCount = 0;
 
-                    int monsterTimer = exerciseType.equals("Burpees") ? 4000 : 3000;
+                    int monsterTimer = activeExercise.getTimer();
                     if (newTime - time >= monsterTimer) {
                         monsterAttack();
                         time = newTime;
@@ -326,51 +371,15 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
                         switch (event.sensor.getType()) {
                             case Sensor.TYPE_LINEAR_ACCELERATION:
 
-                                float x = event.values[1];
+                                float x = event.values[0];
                                 float y = event.values[1];
-                                float z = event.values[1];
+                                float z = event.values[2];
 
-                                if (exerciseType.equals("Squats")) {
-                                    if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                        makeAttack(pc.getSquatPwr(), false);
-                                        pc.setSquatsComplete(pc.getSquatsComplete() + 1);
-                                        halfSquat = false;
-                                        time = System.currentTimeMillis();
-                                    }
-                                    if (y < -2 && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                        halfSquat = true;
-                                    }
-                                } else if (exerciseType.equals("Lunges")) {
-                                    if (y > 2 && halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                        makeAttack(pc.getLungePwr(), false);
-                                        pc.setLungesComplete(pc.getLungesComplete() + 1);
-                                        halfSquat = false;
-                                        time = System.currentTimeMillis();
-                                    }
-                                    if (y < -1 && lastKnownDirection > 1 && ((lastKnownPitch > -130 && lastKnownPitch < -50))) {
-                                        halfSquat = true;
-                                    }
-                                } else if (exerciseType.equals("Shadow Boxing")) {
-                                    if (x < -2) {
-                                        makeAttack(pc.getShadowBoxingPwr(), false);
-                                        pc.setShadowboxingComplete(pc.getShadowboxingComplete() + 1);
-                                        halfSquat = false;
-                                        time = System.currentTimeMillis();
-                                    }
-                                    if (x > 3) {
-                                        halfSquat = true;
-                                    }
-                                } else if (exerciseType.equals("Burpees")) {
-                                    if (halfSquat && ((lastKnownPitch > -110 && lastKnownPitch < -70))) {
-                                        makeAttack(pc.getBurpeePwr(), false);
-                                        pc.setBurpeesComplete(pc.getBurpeesComplete() + 1);
-                                        halfSquat = false;
-                                        time = System.currentTimeMillis();
-                                    }
-                                    if (((lastKnownPitch < 10 && lastKnownPitch > -10))) {
-                                        halfSquat = true;
-                                    }
+                                if(activeExercise.receiveSensorInformation(x,y,z,lastKnownPitch, lastKnownDirection, pc)){
+                                    makeAttack(activeExercise.sendAttackInformation(pc), false);
+                                    time = System.currentTimeMillis();
                                 }
+
                                 break;
                             case Sensor.TYPE_MAGNETIC_FIELD:
                                 mGeomagnetic = event.values;
@@ -450,18 +459,28 @@ public class FragmentCircut extends Fragment implements SensorEventListener, Loc
             }
             if (singleBattle) {
                 singleBattle = false;
-                isActive = !isActive;
+                retreatButtonPressed();
+                isActive = false;
                 TextView t = getView().findViewById(R.id.nameSelect);
                 Button s = getView().findViewById(R.id.retreatButton);
                 Button b = getView().findViewById(R.id.beginWorkOut);
                 s.setText("End Training");
                 b.setText("Begin Training");
                 t.setText("Welcome to the Arena");
-                ProgressBar pb = getActivity().findViewById(R.id.healthBar);
-                pb.setProgress(0);
-                ProgressBar p = getActivity().findViewById(R.id.characterHealth);
-                p.setProgress(0);
-                ((MainActivity) getActivity()).changeViewPager(1);
+                handler.removeCallbacks(runnable);
+                imageChanger.removeCallbacks(imageChang);
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ((MainActivity) getActivity()).changeViewPager(1);
+                            ((MainActivity) getActivity()).reinstateProfile();
+                        }catch (NullPointerException npe){
+                            ((MainActivity) getActivity()).reinstateProfile();
+                        }
+                    }
+                };
+                handler.postDelayed(runnable, 5000);
 
             } else {
                 monster = new Monster();

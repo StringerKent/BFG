@@ -101,14 +101,24 @@ public class User implements Serializable {
 
     public void setTotalDistanceRun(double totalDistanceRun) {
         this.totalDistanceRun = totalDistanceRun;
-        if(totalDistanceRun > 5280){
-            int miles = (int)totalDistanceRun/5280;
+    }
+
+    public void endRun(double distanceRun){
+        if(distanceRun > 5280){
+            int miles = (int)distanceRun/5280;
             receiveXP(miles*200);
         }
+        activePlayerCharacter.endRun(distanceRun);
+        this.totalDistanceRun += distanceRun;
     }
 
     public int getTotalMonsterKilled() {
-        return totalMonsterKilled;
+        int total = 0;
+        for (PlayerCharacter pc : playerCharacters) {
+            total += pc.getMonstersKilled();
+        }
+
+        return total;
     }
 
     public void setTotalMonsterKilled(int totalMonsterKilled) {

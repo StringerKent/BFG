@@ -95,37 +95,37 @@ public class StatsFragment extends Fragment {
         try {
 
             TextView tSquat = getView().findViewById(R.id.totalSquat);
-            tSquat.setText("Total squats: " + allSquats);
+            tSquat.setText("Total complete: " + allSquats);
 
             TextView tLunge = getView().findViewById(R.id.totalLunge);
-            tLunge.setText("Total lunges: " + allLunges);
+            tLunge.setText("Total complete: " + allLunges);
 
             TextView tBurpee = getView().findViewById(R.id.totalBurpee);
-            tBurpee.setText("Total burpees: " + allBurpees);
+            tBurpee.setText("Total complete: " + allBurpees);
 
             TextView tShadow = getView().findViewById(R.id.totalShadow);
-            tShadow.setText("Total shadow boxings: " + allShadowBoxing);
+            tShadow.setText("Total complete: " + allShadowBoxing);
 
             TextView tSprint = getView().findViewById(R.id.totalSprints);
-            tSprint.setText("Total sprints: " + allSprints);
+            tSprint.setText("Total complete: " + allSprints);
 
             TextView aSquat = getView().findViewById(R.id.avgSquatPwr);
-            aSquat.setText("Avg squat power: " + avgSquatPwr);
+            aSquat.setText("Avg power: " + avgSquatPwr);
 
             TextView aLunge = getView().findViewById(R.id.avgLungePwr);
-            aLunge.setText("Avg lunge power: " + avgLungePwr);
+            aLunge.setText("Avg power: " + avgLungePwr);
 
             TextView aBurpee = getView().findViewById(R.id.avgBurpeePwr);
-            aBurpee.setText("Avg burpee power: " + avgBurpeePwr);
+            aBurpee.setText("Avg power: " + avgBurpeePwr);
 
             TextView aShadow = getView().findViewById(R.id.avgShadowPwr);
-            aShadow.setText("Avg shadow boxing power: " + avgShadowBoxingPwr);
+            aShadow.setText("Avg power: " + avgShadowBoxingPwr);
 
             TextView aSprint = getView().findViewById(R.id.avgSprintPwr);
-            aSprint.setText("Avg sprint power: " + avgSprintPwr);
+            aSprint.setText("Avg power: " + avgSprintPwr);
 
             TextView aLevel = getView().findViewById(R.id.avgLevel);
-            aLevel.setText("Avg level: " + avgLevel);
+            aLevel.setText("Avg character level: " + avgLevel);
 
             TextView charNum = getView().findViewById(R.id.characterNum);
             charNum.setText("Characters: " + user.getPlayerCharacters().size());
