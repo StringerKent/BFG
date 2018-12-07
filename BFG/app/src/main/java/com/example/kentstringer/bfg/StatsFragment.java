@@ -40,11 +40,22 @@ public class StatsFragment extends Fragment {
 
                     @Override
                     public void onClick(View view) {
-                        ((CharactersActivity)getActivity()).setViewPager(1);
+                        ((CharactersActivity)getActivity()).setViewPager(2);
+                    }
+                });
+
+                Button moveArenaButton = getView().findViewById(R.id.statsLeft);
+                moveArenaButton.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        ((CharactersActivity)getActivity()).setViewPager(0);
                     }
                 });
             }
         };
+
+
 
         handler.postDelayed(runnable2, 100);
 

@@ -17,7 +17,7 @@ import com.example.kentstringer.bfg.models.User;
 import java.text.DecimalFormat;
 
 public class FragmentProfile extends Fragment {
-    private Button btnNavSecondActivity;
+
     private User user;
     private Handler handler = new Handler();
 
@@ -25,38 +25,14 @@ public class FragmentProfile extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        user = ((MainActivity)getActivity()).user;
-        btnNavSecondActivity = view.findViewById(R.id.btnNavSecondActivity);
-
-        btnNavSecondActivity.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getActivity(), CharactersActivity.class);
-                Bundle bundle = new Bundle();
-                //Add your data from getFactualResults method to bundle
-                bundle.putSerializable("user", user);
-                //Add the bundle to the intent
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-            }
-        });
-
-        Button nextButtonActivity = view.findViewById(R.id.nextButton);
-        nextButtonActivity.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(getActivity(), FutureActivity.class);
-                startActivity(intent);
-            }
-        });
+        user = ((CharactersActivity)getActivity()).user;
 
         Button moveArenaButton = view.findViewById(R.id.profileMove);
         moveArenaButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).changeViewPager(1);
+                ((CharactersActivity)getActivity()).setViewPager(1);
             }
         });
 

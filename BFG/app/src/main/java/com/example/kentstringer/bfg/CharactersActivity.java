@@ -34,7 +34,9 @@ public class CharactersActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager){
         SectionStatePagerAdapter adapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FragmentProfile(), "profile");
         adapter.addFragment(new StatsFragment(), "stats");
+
         for (PlayerCharacter pc :user.getPlayerCharacters()) {
             FragmentCharacterSheet f = new FragmentCharacterSheet();
             Bundle bundle = new Bundle();

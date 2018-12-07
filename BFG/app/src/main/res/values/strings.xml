@@ -7,7 +7,24 @@
         <item>Fighter</item>
         <item>Ranger</item>
         <item>Scout</item>
-        <item>Demo</item>
     </string-array>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="runButton">Start Run</string>
+    <string name="trouble_toggle">Looking For Trouble</string>
+    <string name="swipeLeft">--Swipe</string>
+    <string name="swipeRight">Swipe--</string>
+    <string name="futureButton">Whats coming?</string>
+    <string name="profile">Profile</string>
+    <string name="defaultDistance">Distance: 0.0</string>
+    <string name="defaultTime">Time: 0:0:0</string>
+    <string name="monsterImage">MonsterImage</string>
+    <string name="arenaBanner">Welcome to the arena</string>
+    <string name="startBattle">Begin Training</string>
+    <string name="endBattle">End Training</string>
+    <string name="sprints">Sprints</string>
+    <string name="lunges">Lunges</string>
+    <string name="squats">Squats</string>
+    <string name="burpees">Burpees</string>
+    <string name="shadowboxing">Shadow Boxing</string>
+    <string name="totalStats">Total Stats</string>
 </resources>

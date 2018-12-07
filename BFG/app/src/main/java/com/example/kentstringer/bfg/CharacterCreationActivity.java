@@ -55,13 +55,13 @@ public class CharacterCreationActivity extends Fragment {
                             pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
                                     10, 10, 25, 25, 25, 0, 25);
                             break;
-                        case "Demo":
-                            pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
-                                    10, 10, 50, 50, 0, 0, 0);
-                            pc.setExperience(900);
-                            pc.setSquatsComplete(90);
-                            pc.setLungesComplete(90);
-                            break;
+//                        case "Demo":
+//                            pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
+//                                    10, 10, 50, 50, 0, 0, 0);
+//                            pc.setExperience(900);
+//                            pc.setSquatsComplete(90);
+//                            pc.setLungesComplete(90);
+//                            break;
                         default:
                             pc = new PlayerCharacter(characterClass, name, 10, 10, 10,
                                     10, 10, 20, 20, 20, 20, 20);

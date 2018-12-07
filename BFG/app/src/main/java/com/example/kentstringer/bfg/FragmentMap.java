@@ -2,6 +2,7 @@ package com.example.kentstringer.bfg;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -45,6 +46,7 @@ public class FragmentMap extends Fragment implements LocationListener {
     private Location runStartLocation;
     private double runStartTime;
     private double runTotalDistance;
+    private Button btnNavSecondActivity;
     private boolean onRun = false;
     private int noMovementCount = 0;
     private User user;
@@ -89,12 +91,19 @@ public class FragmentMap extends Fragment implements LocationListener {
         TextView tv = view.findViewById(R.id.nameSelect);
         tv.setText("Welcome " + user.getName());
 
-        Button moveProfileButton = view.findViewById(R.id.mapProfileButton);
-        moveProfileButton.setOnClickListener(new View.OnClickListener() {
+        btnNavSecondActivity = view.findViewById(R.id.btnNavSecondActivity);
 
+        btnNavSecondActivity.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                ((MainActivity)getActivity()).changeViewPager(2);
+            public void onClick(View view){
+                if(!((MainActivity)getActivity()).exercising) {
+                    Intent intent = new Intent(getActivity(), CharactersActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", user);
+                    intent.putExtras(bundle);
+
+                    startActivity(intent);
+                }
             }
         });
 
@@ -113,30 +122,36 @@ public class FragmentMap extends Fragment implements LocationListener {
             @SuppressLint("MissingPermission")
             @Override
             public void onClick(View v) {
-                Button b = v.findViewById(R.id.runButton);
-                b.setText(b.getText().equals("Start Run") ? "End Run" : "Start Run");
-                if (b.getText().equals("End Run")) {
-                    getLocation();
-                    Location l = new Location(LocationManager.GPS_PROVIDER);
-                    l.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
-                    l.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
-                    runStartLocation = l;
-                    runStartTime = System.currentTimeMillis();
-                    runTotalDistance = 0;
-                }else{
-                    user.endRun(runTotalDistance);
-                    int miles = 0;
-                    if(runTotalDistance >= 5280){
-                        miles = (int)runTotalDistance/5280;
+                if (!((MainActivity) getActivity()).exercising) {
+                    Button b = v.findViewById(R.id.runButton);
+                    b.setText(b.getText().equals("Start Run") ? "End Run" : "Start Run");
+                    if (b.getText().equals("End Run")) {
+                        ((MainActivity) getActivity()).exercising = true;
+                        getLocation();
+                        Location l = new Location(LocationManager.GPS_PROVIDER);
+                        l.setLatitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude());
+                        l.setLongitude(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+                        runStartLocation = l;
+                        runStartTime = System.currentTimeMillis();
+                        runTotalDistance = 0;
+                    } else {
+                        ((MainActivity) getActivity()).exercising = false;
+                        user.endRun(runTotalDistance);
+                        int miles = 0;
+                        if (runTotalDistance >= 5280) {
+                            miles = (int) runTotalDistance / 5280;
+                        }
+                        Toast.makeText(getContext(), "You ran " + miles + " miles earning " + (miles * 200) + " bonus experience and " + miles + " bonus power", Toast.LENGTH_LONG).show();
+                        String str = user.toJSON();
+                        sharedpreferences = getContext().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("user", str);
+                        editor.commit();
                     }
-                    Toast.makeText(getContext(), "You ran " + miles + " miles earning " + (miles*200) + " bonus experience and " + miles + " bonus power", Toast.LENGTH_LONG).show();
-                    String str = user.toJSON();
-                    sharedpreferences = getContext().getSharedPreferences("userSave", getContext().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("user", str);
-                    editor.commit();
+                    onRun = !onRun;
+                }else{
+                    Toast.makeText(getContext(), "You can't go on a run. Finish in the arena first!",Toast.LENGTH_LONG).show();
                 }
-                onRun = !onRun;
             }
         });
 
@@ -231,9 +246,8 @@ public class FragmentMap extends Fragment implements LocationListener {
             Random randy = new Random();
             Switch s = getView().findViewById(R.id.troubleSwitch);
 
-            if(randy.nextInt(20) > 5 && s.isChecked() && !((MainActivity)getActivity()).encountered){
+            if(randy.nextInt(20) == 0 && s.isChecked() && !((MainActivity)getActivity()).encountered){
                 ((MainActivity)getActivity()).encountered = true;
-                s.setChecked(false);
                 mp = MediaPlayer.create(getContext(), R.raw.battlestart);
                 mp.start();
                 View v = ((MainActivity)getActivity()).getViewPager(1);
