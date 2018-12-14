@@ -11,8 +11,6 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <string name="runButton">Start Run</string>
     <string name="trouble_toggle">Looking For Trouble</string>
-    <string name="swipeLeft">--Swipe</string>
-    <string name="swipeRight">Swipe--</string>
     <string name="futureButton">Whats coming?</string>
     <string name="profile">Profile</string>
     <string name="defaultDistance">Distance: 0.0</string>
@@ -27,4 +25,16 @@
     <string name="burpees">Burpees</string>
     <string name="shadowboxing">Shadow Boxing</string>
     <string name="totalStats">Total Stats</string>
+    <string name="deleteButton">Delete Character</string>
+    <string name="activeButton">Set as active character</string>
+    <string name="creationLabel">Character Creation</string>
+    <string name="defaultCharacterName">Character Name</string>
+    <string name="fighterTag">Fighter - Strength based training</string>
+    <string name="rangerTag">Ranger - Balanced based training</string>
+    <string name="scoutTag">Scout - Cardio based training</string>
+    <string name="createCharacterButton">Create Character</string>
+    <string name="userCreationLabel">User Creation</string>
+    <string name="createUserButton">Create New User</string>
+    <string name="startingCharacter">Starting Character</string>
+    <string name="defaultUserName">User Name</string>
 </resources>

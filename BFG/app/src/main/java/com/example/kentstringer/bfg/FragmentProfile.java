@@ -39,9 +39,7 @@ public class FragmentProfile extends Fragment {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                /* do what you need to do */
                 updatePage();
-                /* and here comes the "trick" */
                 handler.postDelayed(this, 2000);
             }
         };

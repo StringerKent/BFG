@@ -18,8 +18,9 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CharactersActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CharactersActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -29,9 +30,11 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".UserCreationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SplashScreenActivity"
+        <activity
+            android:name=".UserCreationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +43,10 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

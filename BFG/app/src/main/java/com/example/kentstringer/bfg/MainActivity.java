@@ -1,5 +1,10 @@
 package com.example.kentstringer.bfg;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +26,7 @@ public class MainActivity extends AppCompatActivity{
     private Fragment circuit = new FragmentCircut();
     public boolean encountered = false;
     public boolean exercising = false;
+    private Intent ls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
+        ls = new Intent(getApplicationContext(), LocationService.class);
 
     }
 
@@ -41,6 +48,15 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(1);
     }
+
+    public void startLocationService(){
+        startService(ls);
+    }
+
+    public void stopLocationService(){
+        stopService(ls);
+    }
+
 
     public void changeViewPager(int index){
         mViewPager.setCurrentItem(index);
